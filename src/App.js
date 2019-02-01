@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Login from './components/Layout/Login';
+import Main from './components/Main';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
+import './font-awesome/css/font-awesome.css';
+import './css/bootstrap.css';
+import './css/animate.css';
+import './css/less.css';
+import './css/style.css';
+import './css/plugins/dataTables/datatables.min.css';
 
 class App extends Component {
+
+  state = {
+    isAuthenticated: false,
+  }
+  userHasAuthenticated = authenticated => {
+    this.state.isAuthenticated != authenticated && this.setState({ isAuthenticated: authenticated });
+  }
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    if (sessionStorage.getItem("token")) {
+      this.userHasAuthenticated(true);
+    }
+    const childProps = {
+      isAuthenticated: this.state.isAuthenticated,
+      userHasAuthenticated: this.userHasAuthenticated,
+    };
+    return this.state.isAuthenticated ? <Main childProps={childProps} /> : <Login childProps={childProps} />;
   }
 }
 
