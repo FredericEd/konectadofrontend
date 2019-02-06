@@ -15,7 +15,6 @@ class Login extends Component {
     componentDidMount() {
         const $ = require('jquery');
         $("input").focus(function(){
-            console.log("test");
             $(this).parent().addClass("is-focused");
             $(this).parent().removeClass("is-filled");
          
@@ -23,6 +22,8 @@ class Login extends Component {
             $(this).val() !== "" && $(this).parent().addClass("is-filled");
             $(this).parent().removeClass("is-focused");
         });
+        (this.state.correo !== "" || $("#correo").val() !== "") && $("#correo").parent().addClass("is-filled");
+        (this.state.clave !== "" || $("#clave").val() !== "") && $("#clave").parent().addClass("is-filled");
     }
     handleCorreo = event => {
         this.setState({correo: event.target.value});
@@ -35,7 +36,7 @@ class Login extends Component {
         login(this.state.correo, this.state.clave, this.processResponse);
     }
     processResponse = (loginSuccess, response) => {
-        this.setState({alertShow: true, loginSuccess, alertMessage: response.msg});
+        !loginSuccess ? this.setState({alertShow: true, loginSuccess, alertMessage: response.msg}) : this.props.childProps.userHasAuthenticated(true);
     }
     render() {
         return (
@@ -60,11 +61,11 @@ class Login extends Component {
                                 <form className="m-t" role="form" onSubmit={this.handleSubmit}>
                                     <div className="form-group bmd-form-group">
                                         <label className="bmd-label-floating">Correo</label>
-                                        <input type="email" onChange={this.handleCorreo} className="form-control" value={this.state.correo} />
+                                        <input id="correo" type="email" onChange={this.handleCorreo} className="form-control" value={this.state.correo} />
                                     </div>
                                     <div className="form-group bmd-form-group">
                                         <label className="bmd-label-floating">Contraseña</label>
-                                        <input type="password" onChange={this.handleClave} className="form-control" value={this.state.clave} />
+                                        <input id="clave" type="password" onChange={this.handleClave} className="form-control" value={this.state.clave} />
                                     </div>
                                     <button type="submit" className="btn btn-success block full-width m-b">Iniciar sesión</button>
                                     <a href="#">

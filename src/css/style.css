@@ -4523,7 +4523,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
 .contact-box {
   background-color: #ffffff;
   border: 1px solid #e7eaec;
-  padding: 20px;
+  padding: 1rem 0rem;
   margin-bottom: 20px;
 }
 .contact-box > a {
@@ -8773,7 +8773,38 @@ select, select.form-control, select.custom-file-control {
 [class*=' bmd-label'] {
   color: rgba(0, 0, 0, 0.26); }
   .spaced {
-    margin:2rem;
+    margin:1rem;
   }  .sspaced {
     margin:0.5rem;
+    display: inline-block !important;
   }
+  .margined-right {
+    margin-right: 1rem;
+  }
+  .vcenter{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
+  .marker{
+    height: 4rem;
+    width: auto;
+    margin-top: -4rem;
+    margin-left: -1.2rem;
+  }
+  .td-break{
+    word-break: break-all;
+  }
+  @media only screen and (min-width : 768px) {
+    .is-table-row {
+        display: table;
+    }
+    .is-table-row [class*="col-"] {
+        float: none;
+        display: table-cell;
+        vertical-align: top;
+    }
+}
+select{
+  padding: .375rem 1.75rem .375rem .75rem;
+}

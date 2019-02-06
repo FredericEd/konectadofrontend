@@ -8,6 +8,7 @@ import './css/bootstrap.css';
 import './css/animate.css';
 import './css/less.css';
 import './css/style.css';
+import './css/reactpicker.css';
 import './css/plugins/dataTables/datatables.min.css';
 
 class App extends Component {

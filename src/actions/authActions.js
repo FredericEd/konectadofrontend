@@ -32,7 +32,7 @@ export const logout = async (callback) => {
     }
 }
 
-const refreshToken = async callback => {
+export const refreshToken = async callback => {
     const token = sessionStorage.getItem("refreshToken");
     if (token) {
         const response = await fetch('https://api-dot-konectado-app.appspot.com/auth_admin/token_refresh', {

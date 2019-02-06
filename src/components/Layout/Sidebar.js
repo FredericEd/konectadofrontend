@@ -23,8 +23,8 @@ export default () => {
                             </ul>*/}
                         </div>
                     </li>
-                    <li className={window.location.pathname === "/home" ? "active" : ""}>
-                        <Link to="/home">
+                    <li className={window.location.pathname === "/" ? "active" : ""}>
+                        <Link to="/">
                             <i className="fas fa-tachometer-alt" /> <span className="nav-label">Home</span>
                         </Link>
                     </li>
