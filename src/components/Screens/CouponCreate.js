@@ -3,6 +3,7 @@ import {saveCoupon, getProducts} from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
 import { Alert } from 'reactstrap';
 import DatePicker from "react-datepicker";
+import { BeatLoader} from 'react-spinners';
 
 class CouponCreate extends Component {
 
@@ -21,6 +22,7 @@ class CouponCreate extends Component {
         success: false,
         alertShow: false,
         alertShow2: false,
+        loading: true,
     }
 
     handleStart = start  => this.setState({start});
@@ -45,15 +47,16 @@ class CouponCreate extends Component {
             mm < 10 && (mm = '0' + mm);
             end = dd + '/' + mm + '/' + end.getFullYear();
 
+            this.setState({loading: true});
             saveCoupon(this.state.coupon_id, this.state.store_id, this.state.product_id, start, end, this.state.counter_max, this.state.discount, this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
-        this.setState({alertShow: true, success, response});
+        this.setState({loading: false, alertShow: true, success, response});
         console.log(response);
     }
     handleProductsResponse = products => {
-        this.setState({products});
+        this.setState({products, loading: false});
         this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
     }
 
@@ -108,50 +111,57 @@ class CouponCreate extends Component {
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {
-                        this.setState({ alertShow: false });
+                        this.setState({ loading: false });
                         this.state.success && this.props.history.goBack();
                     }}
                 />
                 <Alert fade={false} color="danger" isOpen={this.state.alertShow2} toggle={() => this.setState({  alertShow2: false })}>
                     ¡Debe elegir un producto para guardar el cupón!
                 </Alert>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="row">
-                        <div className="form-group bmd-form-group col-sm-6">
-                            <label className="margined-right">Inicio:</label>
-                            <DatePicker
-                                dateFormat="dd/MM/yyyy"
-                                minTime={this.state.today}
-                                selected={this.state.start}
-                                onChange={this.handleStart} />
+                <div className='sweet-loading text-center'>
+                    <BeatLoader
+                        sizeUnit={"px"} size={20} color={'#007EC7'}
+                        loading={this.state.loading} />
+                </div>
+                {!this.state.loading && (
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="row">
+                            <div className="form-group bmd-form-group col-sm-6">
+                                <label className="margined-right">Inicio:</label>
+                                <DatePicker
+                                    dateFormat="dd/MM/yyyy"
+                                    minTime={this.state.today}
+                                    selected={this.state.start}
+                                    onChange={this.handleStart} />
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-6">
+                                <label className="margined-right">Final:</label>
+                                <DatePicker
+                                    dateFormat="dd/MM/yyyy"
+                                    minTime={this.state.today}
+                                    selected={this.state.end}
+                                    onChange={this.handleEnd} />
+                            </div>
                         </div>
-                        <div className="form-group bmd-form-group col-sm-6">
-                            <label className="margined-right">Final:</label>
-                            <DatePicker
-                                dateFormat="dd/MM/yyyy"
-                                minTime={this.state.today}
-                                selected={this.state.end}
-                                onChange={this.handleEnd} />
+                        <div className="row">
+                            <div className="form-group bmd-form-group col-sm-6">
+                                <label htmlFor="counter_max" className="bmd-label-floating"> Máximos usos</label>
+                                <input min="0" step="1" required type="number" className="form-control" onChange={this.handleCounterMax} id="counter_max" value={this.state.counter_max} />
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-6">
+                                <label htmlFor="discount" className="bmd-label-floating"> Descuento</label>
+                                <input min="0" step="1" required type="number" className="form-control" onChange={this.handleDiscount} id="discount" value={this.state.discount} />
+                            </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="form-group bmd-form-group col-sm-6">
-                            <label htmlFor="counter_max" className="bmd-label-floating"> Máximos usos</label>
-                            <input min="0" step="1" required type="number" className="form-control" onChange={this.handleCounterMax} id="counter_max" value={this.state.counter_max} />
+                        <select className="form-control" value={this.state.product_id} onChange={this.handleProduct} >
+                            <option value="0">Elija el producto</option>
+                            {this.state.products.map(product => <option key={product._id} value={product._id}>{product.name}</option>)}
+                        </select>
+                        <div className="wrapper-content">
+                            <button type="submit" className="btn btn-w-m btn-success">Guardar</button>
                         </div>
-                        <div className="form-group bmd-form-group col-sm-6">
-                            <label htmlFor="discount" className="bmd-label-floating"> Descuento</label>
-                            <input min="0" step="1" required type="number" className="form-control" onChange={this.handleDiscount} id="discount" value={this.state.discount} />
-                        </div>
-                    </div>
-                    <select className="form-control" value={this.state.product_id} onChange={this.handleProduct} >
-                        <option value="0">Elija el producto</option>
-                        {this.state.products.map(product => <option key={product._id} value={product._id}>{product.name}</option>)}
-                    </select>
-                    <div className="wrapper-content">
-                        <button type="submit" className="btn btn-w-m btn-success">Guardar</button>
-                    </div>
-                </form>
+                    </form>
+                )}
             </div>
         );
     }

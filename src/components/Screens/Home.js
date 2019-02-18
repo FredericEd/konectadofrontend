@@ -8,9 +8,9 @@ class Home extends Component {
                 <div className="row">
                     <div className="col-md-4">
                         <div className="ibox float-e-margins">
-                            <div className="ibox-title">
+                            <div className="ibox-title"> 
                                 <span className="label label-success pull-right">Total</span>
-                                <h5>Alcance</h5>
+                                <h5>Alcance</h5> 
                             </div>
                             <div className="ibox-content">
                                 <h1 className="no-margins">6,200</h1>

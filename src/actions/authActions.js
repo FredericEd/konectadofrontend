@@ -2,10 +2,11 @@ export const login = async (correo, clave, callback) => {
     const queryString = require('query-string');
     const response = await fetch('https://api-dot-konectado-app.appspot.com/auth_admin/login', {
         method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        headers: new Headers({'Content-Type':'application/x-www-form-urlencoded'}),
         body: queryString.stringify({email: correo, password: clave}),
     });
     const json = await response.json();
+    console.log(json);
     if (response.ok) {
         sessionStorage.setItem("token", json.data.access_token);
         sessionStorage.setItem("refreshToken", json.data.refresh_token);

@@ -11,7 +11,7 @@ export const getStores = async (callback) => {
             refreshToken(() => getStores(callback));
         } else {
             const json = await response.json();
-            callback(json.data);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }
@@ -65,7 +65,7 @@ export const getLocales = async (store_id, callback) => {
             refreshToken(() => getLocales(store_id, callback));
         } else {
             const json = await response.json();
-            callback(json.data);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }
@@ -107,7 +107,7 @@ export const deleteLocal = async (store_id, local_id, callback) => {
             refreshToken(() => deleteLocal(store_id, local_id, callback));
         } else {
             const json = await response.json();
-            callback(response.ok, json);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }
@@ -156,7 +156,7 @@ export const getProducts = async (store_id, callback) => {
             refreshToken(() => getProducts(store_id, callback));
         } else {
             const json = await response.json();
-            callback(json.data);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }
@@ -211,7 +211,7 @@ export const getCoupons = async (store_id, callback) => {
             refreshToken(() => getCoupons(store_id, callback));
         } else {
             const json = await response.json();
-            callback(json.data);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }
@@ -256,6 +256,61 @@ export const deleteCoupon = async (store_id, coupon_id, callback) => {
     }
 }
 
+export const getBillboards = async (callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards', {
+            method: 'GET',
+            headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => getBillboards(callback));
+        } else {
+            const json = await response.json();
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const saveBillboard = async (billboard_id, city_id, address, latitude, longitude, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const formData = new FormData();
+        formData.append('city_id', city_id);
+        formData.append('address', address);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+
+        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards' + (billboard_id ? ("/" + billboard_id) : ""), {
+            method: billboard_id ? 'PUT' : 'POST',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+            body: formData,
+        });
+        if (response.status === 401) {
+            refreshToken(() => saveBillboard(billboard_id, city_id, address, latitude, longitude, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
+export const deleteBillboard = async (billboard_id, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards/' + billboard_id, {
+            method: 'DELETE',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => deleteBillboard(billboard_id, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
 export const getCiudades = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
@@ -267,7 +322,7 @@ export const getCiudades = async (callback) => {
             refreshToken(() => getCiudades(callback));
         } else {
             const json = await response.json();
-            callback(json.data);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }
 }

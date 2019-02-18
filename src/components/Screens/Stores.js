@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Store from "../Elements/Store";
 import StoreCreate from "../Screens/StoreCreate";
 import { Link, Switch, Route } from "react-router-dom";
-import {getStores} from '../../actions/apiFunctions';
+import {getStores, deleteStore} from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
-import {deleteStore} from '../../actions/apiFunctions';
+import { BeatLoader} from 'react-spinners';
 
 class Stores extends Component {
 
@@ -50,6 +50,7 @@ class Listado extends Component {
         success: false,
         store_id: false,
         response: {},
+        loading: true,
     }
     componentDidMount() {
         this.props.changeBreadcumb("Afiliados");
@@ -57,7 +58,7 @@ class Listado extends Component {
     }
     handleDeleteResponse = (success, response) => this.setState({alertShow2: true, success, response});
     handleDeleteRequest = store_id => this.setState({alertShow: true, store_id});
-    processResponse = elements => this.setState({elements});
+    processResponse = elements => this.setState({elements, loading: false});
     
     render() {
         return (
@@ -69,7 +70,7 @@ class Listado extends Component {
                     type= "warning"
                     showCancelButton
                     onConfirm= {() => {
-                        this.setState({ alertShow: false });
+                        this.setState({ alertShow: false, loading: true });
                         deleteStore(this.state.store_id, this.handleDeleteResponse);
                     }}
                     onCancel={() => this.setState({alertShow: false})}
@@ -84,14 +85,23 @@ class Listado extends Component {
                         this.state.success && getStores(this.processResponse);
                     }}
                 />
-                <div className="text-right spaced">
-                    <Link to={{pathname: "/stores/create", state: {}}}>
-                        <button type="button" className="btn btn-w-m btn-success">Crear nuevo afiliado</button>
-                    </Link>
+                <div className='sweet-loading text-center'>
+                    <BeatLoader
+                        sizeUnit={"px"} size={20} color={'#007EC7'}
+                        loading={this.state.loading} />
                 </div>
-                <div className="row">
-                    {this.state.elements.map(store => <Store store={store} handleDeleteRequest={this.handleDeleteRequest} changeBreadcumb={this.props.changeBreadcumb} key={store._id} />)}
-                </div>
+                {!this.state.loading && (
+                    <div>
+                        <div className="text-right spaced">
+                            <Link to={{pathname: "/stores/create", state: {}}}>
+                                <button type="button" className="btn btn-w-m btn-success">Crear nuevo afiliado</button>
+                            </Link>
+                        </div>
+                        <div className="row">
+                            {this.state.elements.map(store => <Store store={store} handleDeleteRequest={this.handleDeleteRequest} changeBreadcumb={this.props.changeBreadcumb} key={store._id} />)}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }

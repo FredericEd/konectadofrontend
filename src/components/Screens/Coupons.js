@@ -4,6 +4,7 @@ import CouponCreate from "./CouponCreate";
 import { Link, Switch, Route } from "react-router-dom";
 import {getCoupons, deleteCoupon} from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
+import { BeatLoader} from 'react-spinners';
 
 class Locales extends Component {
 
@@ -57,6 +58,7 @@ class Listado extends Component {
         success: false,
         coupon_id: false,
         response: {},
+        loading: true,
     }
     componentDidMount() {
         this.props.changeBreadcumb("Cupones");
@@ -64,7 +66,7 @@ class Listado extends Component {
     }
     handleResponse = (success, response) => this.setState({alertShow2: true, success, response, coupon_id: false});
     handleDeleteRequest = coupon_id => this.setState({alertShow: true, coupon_id});
-    processResponse = elements => this.setState({elements});
+    processResponse = elements => this.setState({elements, laoding: false});
     
     render() {
         return (<div>
@@ -75,7 +77,7 @@ class Listado extends Component {
                 type= "warning"
                 showCancelButton
                 onConfirm= {() => {
-                    this.setState({ alertShow: false });
+                    this.setState({ alertShow: false, loading: true });
                     deleteCoupon(this.props.store._id, this.state.coupon_id, this.handleResponse);
                 }}
                 onCancel={() => this.setState({alertShow: false})}
@@ -90,35 +92,44 @@ class Listado extends Component {
                     this.state.success && getCoupons(this.props.store._id, this.processResponse);
                 }}
             />
-            <div className="text-right spaced">
-                <Link to={{pathname: `${this.props.match.path}/create`, state: {store_id: this.props.store._id}}}>
-                    <button type="button" className="btn btn-w-m btn-success">Crear nuevo cupón</button>
-                </Link>
+            <div className='sweet-loading text-center'>
+                <BeatLoader
+                    sizeUnit={"px"} size={20} color={'#007EC7'}
+                    loading={this.state.loading} />
             </div>
-            <div className="row">
-                <div className="wrapper wrapper-content animated fadeInRight">
+            {!this.state.loading && (
+                <div>
+                    <div className="text-right spaced">
+                        <Link to={{pathname: `${this.props.match.path}/create`, state: {store_id: this.props.store._id}}}>
+                            <button type="button" className="btn btn-w-m btn-success">Crear nuevo cupón</button>
+                        </Link>
+                    </div>
                     <div className="row">
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Inicio</th>
-                                    <th>Final</th>
-                                    <th>Producto</th>
-                                    <th>Máximos usos</th>
-                                    <th>Descuento</th>
-                                    <th>Operaciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.elements.length == 0 && (
-                                    <tr><td colSpan={6}><em>Aún no se han creado cupones para el presente afiliado.</em></td></tr>
-                                )}
-                                {this.state.elements.map(coupon => <Coupon coupon={coupon} key={coupon._id} handleDeleteRequest={this.handleDeleteRequest} />)}
-                            </tbody>
-                        </table>
+                        <div className="wrapper wrapper-content animated fadeInRight">
+                            <div className="row">
+                                <table className="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Inicio</th>
+                                            <th>Final</th>
+                                            <th>Producto</th>
+                                            <th>Máximos usos</th>
+                                            <th>Descuento</th>
+                                            <th>Operaciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.elements.length == 0 && (
+                                            <tr><td colSpan={6}><em>Aún no se han creado cupones para el presente afiliado.</em></td></tr>
+                                        )}
+                                        {this.state.elements.map(coupon => <Coupon coupon={coupon} key={coupon._id} handleDeleteRequest={this.handleDeleteRequest} />)}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>);
     }
 }

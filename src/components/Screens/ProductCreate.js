@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {saveProduct} from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
 import { Alert } from 'reactstrap';
+import { BeatLoader} from 'react-spinners';
 
 const $ = require('jquery');
 
@@ -17,6 +18,7 @@ class ProductCreate extends Component {
         success: false,
         alertShow: false,
         alertShow2: false,
+        loading: false,
     }
     image_file = React.createRef();
     componentWillMount() {
@@ -62,12 +64,13 @@ class ProductCreate extends Component {
         event.preventDefault();
         if (typeof this.image_file.current.files[0] == "undefined" && this.state.product_id == false)
             this.setState({alertShow2: true});
-        else
+        else {
+            this.setState({loading: true});
             saveProduct(this.state.product_id, this.state.store_id, this.state.name, this.state.description, this.state.price, this.image_file.current.files[0], this.handleResponse);
+        }
     }
     handleResponse = (success, response) => {
-        this.setState({alertShow: true, success, response});
-        console.log(response);
+        this.setState({alertShow: true, success, response, loading: false});
     }
 
     render() {
@@ -86,27 +89,34 @@ class ProductCreate extends Component {
                 <Alert fade={false} color="danger" isOpen={this.state.alertShow2} toggle={() => this.setState({  alertShow2: false })}>
                     ¡Debe elegir una imagen para poder guardar el producto!
                 </Alert>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group bmd-form-group">
-                        <label htmlFor="name" className="bmd-label-floating">Nombre</label>
-                        <input required type="text" className="form-control" onChange={this.handleName} id="name" value={this.state.name} />
-                    </div>
-                    <div className="form-group bmd-form-group">
-                        <label htmlFor="description" className="bmd-label-floating">Descripción</label>
-                        <input required type="text" className="form-control" onChange={this.handleDescription} id="description" value={this.state.description}  />
-                    </div>
-                    <div className="form-group bmd-form-group">
-                        <label htmlFor="price" className="bmd-label-floating">Precio</label>
-                        <input required type="text" className="form-control" onChange={this.handlePrice} id="price" value={this.state.price}  />
-                    </div>
-                    <div className="form-group bmd-form-group">
-                        <label className="margined-right">Imagen:</label>
-                        <input type="file" className="sspaced" ref={this.image_file}  />
-                    </div>
-                    <div className="spaced">
-                        <button type="submit" className="btn btn-w-m btn-success">Guardar</button>
-                    </div>
-                </form>
+                <div className='sweet-loading text-center'>
+                    <BeatLoader
+                        sizeUnit={"px"} size={20} color={'#007EC7'}
+                        loading={this.state.loading} />
+                </div>
+                {!this.state.loading && (
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group bmd-form-group">
+                            <label htmlFor="name" className="bmd-label-floating">Nombre</label>
+                            <input required type="text" className="form-control" onChange={this.handleName} id="name" value={this.state.name} />
+                        </div>
+                        <div className="form-group bmd-form-group">
+                            <label htmlFor="description" className="bmd-label-floating">Descripción</label>
+                            <input required type="text" className="form-control" onChange={this.handleDescription} id="description" value={this.state.description}  />
+                        </div>
+                        <div className="form-group bmd-form-group">
+                            <label htmlFor="price" className="bmd-label-floating">Precio</label>
+                            <input required type="text" className="form-control" onChange={this.handlePrice} id="price" value={this.state.price}  />
+                        </div>
+                        <div className="form-group bmd-form-group">
+                            <label className="margined-right">Imagen:</label>
+                            <input type="file" className="sspaced" ref={this.image_file}  />
+                        </div>
+                        <div className="spaced">
+                            <button type="submit" className="btn btn-w-m btn-success">Guardar</button>
+                        </div>
+                    </form>
+                )}
             </div>
         );
     }

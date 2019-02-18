@@ -4,6 +4,7 @@ import LocalCreate from "./LocalCreate";
 import { Link, Switch, Route } from "react-router-dom";
 import {getLocales, deleteLocal, saveDevice, deleteDevice} from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
+import { BeatLoader} from 'react-spinners';
 
 class Locales extends Component {
 
@@ -58,6 +59,7 @@ class Listado extends Component {
         local_id: false,
         device_id: false,
         response: {},
+        loading: true,
     }
     componentDidMount() {
         this.props.changeBreadcumb("Locales");
@@ -67,7 +69,7 @@ class Listado extends Component {
     handleDeleteRequest = local_id => this.setState({alertShow: true, local_id});
     handleCreateDeviceRequest = local_id => saveDevice(local_id, this.props.store._id, this.handleResponse);
     handleDeleteDeviceRequest = (local_id, device_id) => this.setState({alertShow: true, local_id, device_id});
-    processResponse = elements => this.setState({elements});
+    processResponse = elements => this.setState({elements, loading: false});
     
     render() {
         return (<div>
@@ -78,7 +80,7 @@ class Listado extends Component {
                 type= "warning"
                 showCancelButton
                 onConfirm= {() => {
-                    this.setState({ alertShow: false });
+                    this.setState({ alertShow: false, loading: true });
                     this.state.device_id ? deleteDevice(this.props.store._id, this.state.local_id, this.state.device_id, this.handleResponse) : deleteLocal(this.props.store._id, this.state.local_id, this.handleResponse);
                 }}
                 onCancel={() => this.setState({alertShow: false})}
@@ -93,17 +95,26 @@ class Listado extends Component {
                     this.state.success && getLocales(this.props.store._id, this.processResponse);
                 }}
             />
-            <div className="text-right spaced">
-                    <Link to={{pathname: "/stores/locales/create", state: {store_id: this.props.store._id}}}>
-                    <button type="button" className="btn btn-w-m btn-success">Crear nuevo local</button>
-                </Link>
+            <div className='sweet-loading text-center'>
+                <BeatLoader
+                    sizeUnit={"px"} size={20} color={'#007EC7'}
+                    loading={this.state.loading} />
             </div>
-            <div className="row">
-                {this.state.elements.length == 0 && (
-                    <span className="spaced"><em>Aún no se han creado locales para el presente afiliado.</em></span>
-                )}
-                {this.state.elements.map(local => <Local local={local} key={local._id} handleDeleteRequest={this.handleDeleteRequest} handleCreateDeviceRequest={this.handleCreateDeviceRequest} handleDeleteDeviceRequest={this.handleDeleteDeviceRequest} />)}
-            </div>
+            {!this.state.loading && (
+                <div>
+                    <div className="text-right spaced">
+                            <Link to={{pathname: "/stores/locales/create", state: {store_id: this.props.store._id}}}>
+                            <button type="button" className="btn btn-w-m btn-success">Crear nuevo local</button>
+                        </Link>
+                    </div>
+                    <div className="row">
+                        {this.state.elements.length == 0 && (
+                            <span className="spaced"><em>Aún no se han creado locales para el presente afiliado.</em></span>
+                        )}
+                        {this.state.elements.map(local => <Local local={local} key={local._id} handleDeleteRequest={this.handleDeleteRequest} handleCreateDeviceRequest={this.handleCreateDeviceRequest} handleDeleteDeviceRequest={this.handleDeleteDeviceRequest} />)}
+                    </div>
+                </div>
+            )}
         </div>);
     }
 }
