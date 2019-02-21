@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route } from "react-router-dom";
-import {getBillboards, deleteBillboard} from '../../actions/apiFunctions';
+import {getBillboards, deleteBillboard, getCiudades} from '../../actions/apiFunctions';
 import Billboard from "../Elements/Billboard";
 import Datatable from "../Elements/Datatable";
 import BillboardCreate from "../Screens/BillboardCreate";
@@ -45,6 +45,8 @@ class Listado extends Component {
     
     state = {
         elements: [],
+        ciudades: [],
+        city_id: "",
         alertShow: false,
         alertShow2: false,
         success: false,
@@ -62,12 +64,21 @@ class Listado extends Component {
     }
     componentDidMount() {
         this.props.changeBreadcumb("Billboards");
-        getBillboards(this.processResponse);
+        getCiudades(this.handleCiudadesResponse);
     }
     handleResponse = (success, response) => this.setState({alertShow2: true, success, response, billboard_id: false});
     handleDeleteRequest = billboard_id => this.setState({alertShow: true, billboard_id});
-    processResponse = elements => this.setState({elements, loading: false});
-
+    processResponse = elements => {
+        this.setState({elements, loading: false});
+    }
+    handleCiudadesResponse = ciudades => {
+        this.setState({ciudades});
+        getBillboards(this.state.city_id, this.processResponse);
+    }
+    handleCiudad = event => {
+        this.setState({city_id: event.target.value, loading: true});
+        getBillboards(event.target.value, this.processResponse);
+    }
     render () {
         return (<div>
             <SweetAlert
@@ -89,7 +100,7 @@ class Listado extends Component {
                 type= {this.state.success ? "success" : "error"}
                 onConfirm= {() => {
                     this.setState({ alertShow2: false });
-                    this.state.success && getBillboards(this.processResponse);
+                    this.state.success && getBillboards(this.state.city_id, this.processResponse);
                 }}
             />
             <div className='sweet-loading text-center'>
@@ -99,10 +110,18 @@ class Listado extends Component {
             </div>
             {!this.state.loading && (
                 <div>
-                    <div className="text-right">
-                        <Link  to={{pathname: "./billboards/create", state: {}}}>
-                            <button type="button" className="btn btn-w-m btn-success">Crear nuevo billboard</button>
-                        </Link>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <select className="form-control" value={this.state.city_id} onChange={this.handleCiudad}>
+                                <option value="">Todas las ciudades</option>
+                                {this.state.ciudades.map(ciudad => <option key={ciudad._id} value={ciudad._id}>{ciudad.name}</option>)}
+                            </select>
+                        </div>
+                        <div className="text-right col-sm-6">
+                            <Link  to={{pathname: "./billboards/create", state: {}}}>
+                                <button type="button" className="btn btn-w-m btn-success">Crear nuevo billboard</button>
+                            </Link>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="wrapper wrapper-content animated fadeInRight">

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {login} from '../../actions/authActions';
 import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
+import { BeatLoader} from 'react-spinners';
 
 class Login extends Component {
 
@@ -11,8 +12,10 @@ class Login extends Component {
         alertShow: false,
         alertMessage: "",
         loginSuccess: false,
+        loading: false,
     }
-    componentDidMount() {
+    
+    prepareForm = () => {
         const $ = require('jquery');
         $("input").focus(function(){
             $(this).parent().addClass("is-focused");
@@ -25,6 +28,9 @@ class Login extends Component {
         (this.state.correo !== "" || $("#correo").val() !== "") && $("#correo").parent().addClass("is-filled");
         (this.state.clave !== "" || $("#clave").val() !== "") && $("#clave").parent().addClass("is-filled");
     }
+    componentDidMount() {
+        this.prepareForm();
+    }
     handleCorreo = event => {
         this.setState({correo: event.target.value});
     }
@@ -33,15 +39,23 @@ class Login extends Component {
     }
     handleSubmit = event => {
         event.preventDefault();
+        this.setState({loading: true});
         login(this.state.correo, this.state.clave, this.processResponse);
     }
     processResponse = (loginSuccess, response) => {
-        !loginSuccess ? this.setState({alertShow: true, loginSuccess, alertMessage: response.msg}) : this.props.childProps.userHasAuthenticated(true);
+        !loginSuccess ? this.setState({alertShow: true, loginSuccess, alertMessage: response.msg, loading: false}) : this.props.childProps.userHasAuthenticated(true);
+        this.prepareForm();
     }
     render() {
         return (
             <div className="gray-bg">
                 <div className="loginColumns animated fadeInDown">
+                    <div className='sweet-loading text-center'>
+                        <BeatLoader
+                            sizeUnit={"px"} size={20} color={'#007EC7'}
+                            loading={this.state.loading} />
+                    </div>
+                    {!this.state.loading && (
                     <div className="row">
                         <LeftText />
                         <div className="col-md-6">
@@ -75,6 +89,7 @@ class Login extends Component {
                             </div>
                         </div>
                     </div>
+                    )}
                     <hr/>
                     <div className="row">
                         <div className="col-md-6">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Login from './components/Layout/Login';
 import Main from './components/Main';
-import 'bootstrap/dist/js/bootstrap.min.js';
+//import 'bootstrap/dist/js/bootstrap.min.js';
 
 import './font-awesome/css/font-awesome.css';
 import './css/bootstrap.css';

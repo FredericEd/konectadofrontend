@@ -98,6 +98,9 @@ class Listado extends Component {
                             </Link>
                         </div>
                         <div className="row">
+                            {this.state.elements.length == 0 && (
+                                <span className="spaced"><em>Aún no se han creado afiliados.</em></span>
+                            )}
                             {this.state.elements.map(store => <Store store={store} handleDeleteRequest={this.handleDeleteRequest} changeBreadcumb={this.props.changeBreadcumb} key={store._id} />)}
                         </div>
                     </div>

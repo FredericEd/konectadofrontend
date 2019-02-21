@@ -2,8 +2,19 @@ import React, {Component} from "react";
 import {logout} from '../../actions/authActions';
 
 class Header extends Component {
+    state = {
+        showOptions: false,
+    }
+    optionsRef = React.createRef();
     handleLogout = () => {
         this.props.childProps.userHasAuthenticated(false);
+    }
+    handleOptions = () => this.setState(prevState => ({showOptions: !prevState.showOptions}));
+    handleClickOutside = event => {
+        this.optionsRef && !this.optionsRef.current.contains(event.target) && this.setState({showOptions: false});
+    }
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
     }
     render() {
         return (
@@ -21,8 +32,8 @@ class Header extends Component {
                         <li>
                             <span className="m-r-sm text-muted welcome-message">Bienvenido Konectado.</span>
                         </li>
-                        <li className="dropdown">
-                            <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <li className={"dropdown " + (this.state.showOptions ? "open" : "")}>
+                            <a onClick={this.handleOptions} ref={this.optionsRef} className="dropdown-toggle count-info open" data-toggle="dropdown" href="#">
                                 <i className="fa fa-bell"></i>  <span className="label label-primary">8</span>
                             </a>
                             <ul className="dropdown-menu dropdown-alerts">

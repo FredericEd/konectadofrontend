@@ -39,6 +39,7 @@ class BillboardCreate extends Component {
     }
     handleResponse = (success, response) => {
         this.setState({loading: false, alertShow: true, success, response});
+        this.prepareForm();
     }
     handleCiudadesResponse = ciudades => {
         this.setState({ciudades, loading: false});

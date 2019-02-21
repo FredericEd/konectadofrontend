@@ -57,13 +57,29 @@ class LocalCreate extends Component {
     }
     handleResponse = (success, response) => {
         this.setState({alertShow: true, success, response, loading: false});
-        console.log(response);
+        this.prepareForm();
     }
     handleCiudadesResponse = ciudades => {
         this.setState({ciudades, loading: false});
-        this.state.local_id && this.setState({city_id: this.props.location.state.billboard.city._id});
+        this.state.local_id && this.setState({city_id: this.props.location.state.local.city._id});
+        this.prepareForm();
     }
 
+    prepareForm = () => {
+        this.props.changeBreadcumb(this.state.local_id ? "Editar local" : "Crear local");
+        $("input").focus(function(){
+            $(this).parent().addClass("is-focused");
+            $(this).parent().removeClass("is-filled");
+         
+        }).blur(function(){
+            $(this).val() !== "" && $(this).parent().addClass("is-filled");
+            $(this).parent().removeClass("is-focused");
+        });
+        this.state.name != "" && $("#name").parent().addClass("is-filled");
+        this.state.email != "" && $("#email").parent().addClass("is-filled");
+        this.state.address != "" && $("#address").parent().addClass("is-filled");
+        this.state.phone != "" && $("#phone").parent().addClass("is-filled");
+    }
     componentWillMount() {
         if (typeof this.props.location.state == 'undefined') {
             this.props.history.push("/");
@@ -82,22 +98,7 @@ class LocalCreate extends Component {
                 longitude: local.longitude,
             });
         } else this.setState({store_id: this.props.location.state.store_id});
-    }
-    componentDidMount() {
-        this.props.changeBreadcumb(this.state.local_id ? "Editar local" : "Crear local");
         getCiudades(this.handleCiudadesResponse);
-        $("input").focus(function(){
-            $(this).parent().addClass("is-focused");
-            $(this).parent().removeClass("is-filled");
-         
-        }).blur(function(){
-            $(this).val() !== "" && $(this).parent().addClass("is-filled");
-            $(this).parent().removeClass("is-focused");
-        });
-        this.state.name != "" && $("#name").parent().addClass("is-filled");
-        this.state.email != "" && $("#email").parent().addClass("is-filled");
-        this.state.address != "" && $("#address").parent().addClass("is-filled");
-        this.state.phone != "" && $("#phone").parent().addClass("is-filled");
     }
 
     render() {

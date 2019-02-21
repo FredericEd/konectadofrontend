@@ -3,7 +3,7 @@ import {refreshToken} from './authActions';
 export const getStores = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores', {
+        const response = await fetch('http://34.73.113.72/stores', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -24,7 +24,7 @@ export const saveStore = async (store_id, name, description, image_file, callbac
         formData.append('description', description);
         formData.append('image_file', image_file);
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores' + (store_id ? ("/" + store_id) : ""), {
+        const response = await fetch('http://34.73.113.72/stores' + (store_id ? ("/" + store_id) : ""), {
             method: store_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -41,7 +41,7 @@ export const saveStore = async (store_id, name, description, image_file, callbac
 export const deleteStore = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id, {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -57,7 +57,7 @@ export const deleteStore = async (store_id, callback) => {
 export const getLocales = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/locals", {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -82,7 +82,7 @@ export const saveLocal = async (local_id, name, address, email, phone, city_id, 
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/locals" + (local_id ? ("/" + local_id) : ""), {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals" + (local_id ? ("/" + local_id) : ""), {
             method: local_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -99,7 +99,7 @@ export const saveLocal = async (local_id, name, address, email, phone, city_id, 
 export const deleteLocal = async (store_id, local_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/locals/" + local_id, {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -116,7 +116,7 @@ export const saveDevice = async (local_id, store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/locals/" + local_id + "/devices", {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id + "/devices", {
             method: 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -132,7 +132,7 @@ export const saveDevice = async (local_id, store_id, callback) => {
 export const deleteDevice = async (store_id, local_id, device_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/locals/" + local_id + "/devices/" + device_id, {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id + "/devices/" + device_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -148,7 +148,7 @@ export const deleteDevice = async (store_id, local_id, device_id, callback) => {
 export const getProducts = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/products", {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -170,7 +170,7 @@ export const saveProduct = async (product_id, store_id, name, description, price
         formData.append('price', price);
         formData.append('image_file', image_file);
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/products" + (product_id ? ("/" + product_id) : ""), {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products" + (product_id ? ("/" + product_id) : ""), {
             method: product_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -187,7 +187,7 @@ export const saveProduct = async (product_id, store_id, name, description, price
 export const deleteProduct = async (store_id, product_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/products/" + product_id, {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products/" + product_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -203,7 +203,7 @@ export const deleteProduct = async (store_id, product_id, callback) => {
 export const getCoupons = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/coupons", {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -216,7 +216,7 @@ export const getCoupons = async (store_id, callback) => {
     }
 }
 
-export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, callback) => {
+export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
@@ -225,14 +225,18 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
         formData.append('end', end);
         formData.append('counter_max', counter_max);
         formData.append('discount', discount);
+        formData.append('start_time', start_time);
+        formData.append('billboards', billboards);
+        formData.append('locals', locals);
+        formData.append('end_time', end_time);
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/coupons" + (coupon_id ? ("/" + coupon_id) : ""), {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons" + (coupon_id ? ("/" + coupon_id) : ""), {
             method: coupon_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
         });
         if (response.status === 401) {
-            refreshToken(() => saveCoupon(coupon_id, store_id, product_id, start, end, counter_max, discount, callback));
+            refreshToken(() => saveCoupon(coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, callback));
         } else {
             const json = await response.json();
             callback(response.ok, json);
@@ -243,7 +247,7 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
 export const deleteCoupon = async (store_id, coupon_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/stores/' + store_id + "/coupons/" + coupon_id, {
+        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons/" + coupon_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -256,15 +260,15 @@ export const deleteCoupon = async (store_id, coupon_id, callback) => {
     }
 }
 
-export const getBillboards = async (callback) => {
+export const getBillboards = async (city_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards', {
+        const response = await fetch('http://34.73.113.72/billboards?city_id=' + city_id, {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
         if (response.status === 401) {
-            refreshToken(() => getBillboards(callback));
+            refreshToken(() => getBillboards(city_id, callback));
         } else {
             const json = await response.json();
             callback(typeof json.data  == 'undefined' ? [] : json.data);
@@ -281,7 +285,7 @@ export const saveBillboard = async (billboard_id, city_id, address, latitude, lo
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
 
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards' + (billboard_id ? ("/" + billboard_id) : ""), {
+        const response = await fetch('http://34.73.113.72/billboards' + (billboard_id ? ("/" + billboard_id) : ""), {
             method: billboard_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -298,7 +302,7 @@ export const saveBillboard = async (billboard_id, city_id, address, latitude, lo
 export const deleteBillboard = async (billboard_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/billboards/' + billboard_id, {
+        const response = await fetch('http://34.73.113.72/billboards/' + billboard_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -314,7 +318,7 @@ export const deleteBillboard = async (billboard_id, callback) => {
 export const getCiudades = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('https://api-dot-konectado-app.appspot.com/cities', {
+        const response = await fetch('http://34.73.113.72/cities', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });

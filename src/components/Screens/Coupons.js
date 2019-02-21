@@ -66,7 +66,9 @@ class Listado extends Component {
     }
     handleResponse = (success, response) => this.setState({alertShow2: true, success, response, coupon_id: false});
     handleDeleteRequest = coupon_id => this.setState({alertShow: true, coupon_id});
-    processResponse = elements => this.setState({elements, laoding: false});
+    processResponse = elements => {
+        this.setState({elements, loading: false});
+    }
     
     render() {
         return (<div>

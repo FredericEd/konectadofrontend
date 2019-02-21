@@ -37,7 +37,8 @@ class ProductCreate extends Component {
             });
         } else this.setState({store_id: this.props.location.state.store_id});
     }
-    componentDidMount() {
+    
+    prepareForm = () => {
         this.props.changeBreadcumb(this.state.product_id ? "Editar producto" : "Crear producto");
         $("input").focus(function(){
             $(this).parent().addClass("is-focused");
@@ -49,6 +50,9 @@ class ProductCreate extends Component {
         this.state.name != "" && $("#name").parent().addClass("is-filled");
         this.state.description != "" && $("#description").parent().addClass("is-filled");
         this.state.price != "" && $("#price").parent().addClass("is-filled");
+    }
+    componentDidMount() {
+        this.prepareForm();
     }
 
     handleName = event => {

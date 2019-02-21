@@ -28,7 +28,8 @@ class StoreCreate extends Component {
             });
         }
     }
-    componentDidMount() {
+    
+    prepareForm = () => {
         this.props.changeBreadcumb(this.state.store_id ? "Editar Afiliado" : "Crear Afiliado");
         $("input[type=text]").focus(function(){
             $(this).parent().addClass("is-focused");
@@ -39,6 +40,9 @@ class StoreCreate extends Component {
         });
         this.state.nombre != "" && $("#nombre").parent().addClass("is-filled");
         this.state.descripcion != "" && $("#descripcion").parent().addClass("is-filled");
+    }
+    componentDidMount() {
+        this.prepareForm();
     }
 
     handleNombre = event => {
@@ -58,6 +62,7 @@ class StoreCreate extends Component {
     }
     handleResponse = (success, response) => {
         this.setState({alertShow: true, success, response, loading: false});
+        this.prepareForm();
     }
 
     render() {
