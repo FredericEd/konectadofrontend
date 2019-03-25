@@ -8,6 +8,8 @@ import Products from "./Screens/Products";
 import Coupons from "./Screens/Coupons";
 import Locales from "./Screens/Locales";
 import Billboards from "./Screens/Billboards";
+import Members from "./Screens/Members";
+import Reportes from "./Screens/Reportes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 class Main extends Component {
@@ -26,6 +28,8 @@ class Main extends Component {
                 <Route path="/stores/cupones" component={Coupons} />
                 <Route path="/stores" component={Stores} />
                 <Route path="/billboards" component={Billboards} />
+                <Route path="/members" component={Members} />
+                <Route path="/reportes" component={Reportes} />
                 <Route exact path="/" component={Home} />
             </Switch>
             </div>

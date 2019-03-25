@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {saveCoupon, getProducts, getBillboards, getLocales} from '../../actions/apiFunctions';
+import { saveCoupon, getProducts, getBillboards, getLocales, getMembers } from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
 import { Alert } from 'reactstrap';
 import DatePicker from "react-datepicker";
@@ -20,8 +20,10 @@ class CouponCreate extends Component {
         products: [],
         billboards: [],
         locales: [],
+        members: [],
         selected_billboards: new Set(),
         selected_locales: new Set(),
+        selected_members: new Set(),
         today: new Date(),
 
         response: {},
@@ -49,6 +51,12 @@ class CouponCreate extends Component {
         const newSet  = this.state.selected_locales;
         target.checked ? newSet.add(target.id) : newSet.delete(target.id);
         this.setState({selected_locales: newSet});
+    }
+    handleCheckMember = event => {
+        const target = event.target;
+        const newSet  = this.state.selected_members;
+        target.checked ? newSet.add(target.id) : newSet.delete(target.id);
+        this.setState({selected_members: newSet});
     }
 
     handleSubmit = event => {
@@ -89,6 +97,11 @@ class CouponCreate extends Component {
     handleLocalesResponse = locales => {
         this.setState({locales, loading: false});
         //this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
+        getMembers(this.handleMembersResponse);
+    }
+    handleMembersResponse = members => {
+        this.setState({members, loading: false});
+        //this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
         this.prepareForm();
     }
 
@@ -123,6 +136,9 @@ class CouponCreate extends Component {
             const locales = new Set();
             for (let local of coupon.locals)
                 locales.add(local._id);
+            const members = new Set();
+            for (let member of coupon.members)
+                members.add(member._id);
             this.setState({
                 coupon_id: coupon._id,
                 store_id: coupon.store_id,
@@ -133,6 +149,7 @@ class CouponCreate extends Component {
                 end_time: coupon.end_time,
                 selected_billboards: billboards,
                 selected_locales: locales,
+                selected_members: members,
             });
             getProducts(coupon.store_id, this.handleProductsResponse);
         } else {
@@ -221,15 +238,29 @@ class CouponCreate extends Component {
                         </div>
                         <div className="sspaced" />
                         <div className="row">
-                            <h3>Billboards</h3>
+                            <h3>Tótems</h3>
                             {this.state.billboards.length == 0 && (
-                                <em>No se han creado billboards.</em>
+                                <em>No se han creado tótems.</em>
                             )}
                             {this.state.billboards.map(billboard =>
                                 <div className="form-check col-sm-6 col-md-4" key={billboard._id}>
                                     <input className="form-check-input" type="checkbox" id={billboard._id} onChange={this.handleCheckBillboard} checked={this.state.selected_billboards.has(billboard._id)} />
                                     <label className="form-check-label" htmlFor={billboard._id}>
                                         {billboard.address}
+                                    </label>
+                                </div>
+                            )}
+                        </div>
+                        <div className="row">
+                            <h3>Socios</h3>
+                            {this.state.members.length == 0 && (
+                                <em>No se han creado socios.</em>
+                            )}
+                            {this.state.members.map(member =>
+                                <div className="form-check col-sm-6 col-md-4" key={member._id}>
+                                    <input className="form-check-input" type="checkbox" id={member._id} onChange={this.handleCheckMember} checked={this.state.selected_members.has(member._id)} />
+                                    <label className="form-check-label" htmlFor={member._id}>
+                                        {member.name}
                                     </label>
                                 </div>
                             )}

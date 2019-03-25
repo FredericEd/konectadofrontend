@@ -11,6 +11,7 @@ class StoreCreate extends Component {
         store_id: false,
         nombre: "",
         descripcion: "",
+        video_link: "",
         response: {},
         success: false,
         alertShow: false,
@@ -25,6 +26,7 @@ class StoreCreate extends Component {
                 store_id: store._id,
                 nombre: store.name,
                 descripcion: store.description,
+                video_link: store.video_link,
             });
         }
     }
@@ -40,6 +42,7 @@ class StoreCreate extends Component {
         });
         this.state.nombre != "" && $("#nombre").parent().addClass("is-filled");
         this.state.descripcion != "" && $("#descripcion").parent().addClass("is-filled");
+        this.state.video_link != "" && $("#video_link").parent().addClass("is-filled");
     }
     componentDidMount() {
         this.prepareForm();
@@ -51,13 +54,16 @@ class StoreCreate extends Component {
     handleDescripcion = event => {
         this.setState({descripcion: event.target.value});
     }
+    handleVideo = event => {
+        this.setState({video_link: event.target.value});
+    }
     handleSubmit = event => {
         event.preventDefault();
         if (typeof this.image_file.current.files[0] == "undefined" && this.state.store_id == false)
             this.setState({alertShow2: true});
         else {
             this.setState({loading: true});
-            saveStore(this.state.store_id, this.state.nombre, this.state.descripcion, this.image_file.current.files[0], this.handleResponse);
+            saveStore(this.state.store_id, this.state.nombre, this.state.descripcion, this.state.video_link, this.image_file.current.files[0], this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
@@ -97,6 +103,10 @@ class StoreCreate extends Component {
                             <input required type="text" className="form-control" onChange={this.handleDescripcion} id="descripcion" value={this.state.descripcion}  />
                         </div>
                         <div className="form-group bmd-form-group">
+                            <label htmlFor="formGroupExampleInput2" className="bmd-label-floating">Link del video</label>
+                            <input required type="text" className="form-control" onChange={this.handleVideo} id="video_link" value={this.state.video_link}  />
+                        </div>
+                        <div className="form-group bmd-form-group">
                             <label className="margined-right">Imagen:</label>
                             <input type="file" className="sspaced" ref={this.image_file}  />
                         </div>
@@ -109,5 +119,4 @@ class StoreCreate extends Component {
         );
     }
 }
-
 export default StoreCreate;

@@ -35,7 +35,17 @@ export default () => {
                     </li>
                     <li className={window.location.pathname === "/billboards" ? "active" : ""}>
                         <Link to="/billboards">
-                            <i className="fas fa-chart-bar" /> <span className="nav-label">Billboards</span>
+                            <i className="fas fa-chart-bar" /> <span className="nav-label">Tótems</span>
+                        </Link>
+                    </li>
+                    <li className={window.location.pathname === "/members" ? "active" : ""}>
+                        <Link to="/members">
+                            <i className="fas fa-chart-bar" /> <span className="nav-label">Socios</span>
+                        </Link>
+                    </li>
+                    <li className={window.location.pathname === "/reportes" ? "active" : ""}>
+                        <Link to="/reportes">
+                            <i className="fas fa-chart-bar" /> <span className="nav-label">Reportes</span>
                         </Link>
                     </li>
                 </ul>

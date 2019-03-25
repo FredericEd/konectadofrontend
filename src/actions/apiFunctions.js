@@ -16,12 +16,13 @@ export const getStores = async (callback) => {
     }
 }
 
-export const saveStore = async (store_id, name, description, image_file, callback) => {
+export const saveStore = async (store_id, name, description, video_link, image_file, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
+        formData.append('video_link', video_link);
         formData.append('image_file', image_file);
 
         const response = await fetch('http://34.73.113.72/stores' + (store_id ? ("/" + store_id) : ""), {
@@ -216,7 +217,7 @@ export const getCoupons = async (store_id, callback) => {
     }
 }
 
-export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, callback) => {
+export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, members, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
@@ -228,6 +229,7 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
         formData.append('start_time', start_time);
         formData.append('billboards', billboards);
         formData.append('locals', locals);
+        formData.append('members', members);
         formData.append('end_time', end_time);
 
         const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons" + (coupon_id ? ("/" + coupon_id) : ""), {
@@ -236,7 +238,7 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
             body: formData,
         });
         if (response.status === 401) {
-            refreshToken(() => saveCoupon(coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, callback));
+            refreshToken(() => saveCoupon(coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, members, callback));
         } else {
             const json = await response.json();
             callback(response.ok, json);
@@ -315,6 +317,60 @@ export const deleteBillboard = async (billboard_id, callback) => {
     }
 }
 
+export const getMembers = async (callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('http://34.73.113.72/members', {
+            method: 'GET',
+            headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => getMembers(callback));
+        } else {
+            const json = await response.json();
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const saveMember = async (member_id, name, email, phone, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', phone);
+
+        const response = await fetch('http://34.73.113.72/members' + (member_id ? ("/" + member_id) : ""), {
+            method: member_id ? 'PUT' : 'POST',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+            body: formData,
+        });
+        if (response.status === 401) {
+            refreshToken(() => saveMember(member_id, name, phone, phone, email));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
+export const deleteMember = async (member_id, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('http://34.73.113.72/members/' + member_id, {
+            method: 'DELETE',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => deleteMember(member_id, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
 export const getCiudades = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
@@ -326,6 +382,23 @@ export const getCiudades = async (callback) => {
             refreshToken(() => getCiudades(callback));
         } else {
             const json = await response.json();
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const getReportes = async (callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('http://34.73.113.72/reports', {
+            method: 'GET',
+            headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => getReportes(callback));
+        } else {
+            const json = await response.json();
+            console.log(json);
             callback(typeof json.data  == 'undefined' ? [] : json.data);
         }
     }

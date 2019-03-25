@@ -48,7 +48,7 @@ class BillboardCreate extends Component {
     }
 
     prepareForm = () => {
-        this.props.changeBreadcumb(this.state.local_id ? "Editar billboard" : "Crear billboard");
+        this.props.changeBreadcumb(this.state.local_id ? "Editar tótem" : "Crear tótem");
         $("input").focus(function(){
             $(this).parent().addClass("is-focused");
             $(this).parent().removeClass("is-filled");

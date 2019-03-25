@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route } from "react-router-dom";
-import {getBillboards, deleteBillboard, getCiudades} from '../../actions/apiFunctions';
+import {getBillboards, deleteBillboard, getCiudades } from '../../actions/apiFunctions';
 import Billboard from "../Elements/Billboard";
 import Datatable from "../Elements/Datatable";
-import BillboardCreate from "../Screens/BillboardCreate";
+import BillboardCreate from "./BillboardCreate";
 import SweetAlert from 'sweetalert-react';
-import { BeatLoader} from 'react-spinners';
+import { BeatLoader } from 'react-spinners';
 
 class Billboards extends Component {
     state = {
-        subtitle: "Billboards",
+        subtitle: "Tótems",
     }
     render() {
         return (
             <div>
                 <div className="row wrapper border-bottom white-bg page-heading divbread">
                     <div className="col-lg-9">
-                        <h2>Billboards</h2>
+                        <h2>Tótems</h2>
                         <ol className="breadcrumb">
                             <li>
                                 <Link to="/billboards">
@@ -63,7 +63,7 @@ class Listado extends Component {
             }],*/
     }
     componentDidMount() {
-        this.props.changeBreadcumb("Billboards");
+        this.props.changeBreadcumb("Tótems");
         getCiudades(this.handleCiudadesResponse);
     }
     handleResponse = (success, response) => this.setState({alertShow2: true, success, response, billboard_id: false});
@@ -119,7 +119,7 @@ class Listado extends Component {
                         </div>
                         <div className="text-right col-sm-6">
                             <Link  to={{pathname: "./billboards/create", state: {}}}>
-                                <button type="button" className="btn btn-w-m btn-success">Crear nuevo billboard</button>
+                                <button type="button" className="btn btn-w-m btn-success">Crear nuevo tótem</button>
                             </Link>
                         </div>
                     </div>

@@ -55,11 +55,12 @@ class Login extends Component {
                             sizeUnit={"px"} size={20} color={'#007EC7'}
                             loading={this.state.loading} />
                     </div>
+                    <hr/>
                     {!this.state.loading && (
                     <div className="row">
                         <LeftText />
                         <div className="col-md-6">
-                            <div className="ibox-content">
+                            <div>
                                 <SweetAlert
                                     show= {this.state.alertShow}
                                     title= "Konectado"
@@ -93,7 +94,7 @@ class Login extends Component {
                     <hr/>
                     <div className="row">
                         <div className="col-md-6">
-                            Konectado
+                            
                         </div>
                         <div className="col-md-6 text-right">
                             <small>© 2019</small>
@@ -107,9 +108,10 @@ class Login extends Component {
 
 const LeftText = () => (
     <div className="col-md-6">
-        <h2 className="font-bold">Bienvenido a Konectado</h2>
+        <img alt="image" className="logo" style={{marginTop: "10rem"}} src={require("../../img/logo2.png")} />
+        {/*<h2 className="font-bold">Bienvenido a Konectado</h2>
         <p>Bacon ipsum dolor amet cow bacon meatball fatback chuck. Doner pork chop hamburger ham corned beef.</p> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-        <p><small>Ribeye venison beef ribs leberkas strip steak pig boudin shoulder fatback short ribs andouille pork loin. Tenderloin drumstick shankle jowl burgdoggen.</small></p>
+        <p><small>Ribeye venison beef ribs leberkas strip steak pig boudin shoulder fatback short ribs andouille pork loin. Tenderloin drumstick shankle jowl burgdoggen.</small></p>*/}
     </div>
 );
 
