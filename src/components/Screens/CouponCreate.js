@@ -77,7 +77,7 @@ class CouponCreate extends Component {
             end = dd + '/' + mm + '/' + end.getFullYear();
 
             this.setState({loading: true});
-            saveCoupon(this.state.coupon_id, this.state.store_id, this.state.product_id, start, end, this.state.counter_max, this.state.discount, this.state.start_time, this.state.end_time, Array.from(this.state.selected_billboards).join(), Array.from(this.state.selected_locales).join(), this.handleResponse);
+            saveCoupon(this.state.coupon_id, this.state.store_id, this.state.product_id, start, end, this.state.counter_max, this.state.discount, this.state.start_time, this.state.end_time, Array.from(this.state.selected_billboards).join(), Array.from(this.state.selected_locales).join(), Array.from(this.state.selected_members).join(), this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
@@ -227,6 +227,14 @@ class CouponCreate extends Component {
                             {this.state.locales.length == 0 && (
                                 <em>No se han creado locales.</em>
                             )}
+                            {this.state.locales.length > 0 && (
+                                <div className="form-check col-sm-6 col-md-4">
+                                    <input className="form-check-input" type="checkbox" onChange={this.handleCheckLocalAll} />
+                                    <label className="form-check-label">
+                                        Elegir todos
+                                    </label>
+                                </div>
+                            )}
                             {this.state.locales.map(local =>
                                 <div className="form-check col-sm-6 col-md-4" key={local._id}>
                                     <input className="form-check-input" type="checkbox" id={local._id} onChange={this.handleCheckLocal} checked={this.state.selected_locales.has(local._id)} />
@@ -251,7 +259,7 @@ class CouponCreate extends Component {
                                 </div>
                             )}
                         </div>
-                        <div className="row">
+                        <div className="row" style={{display: "none"}}>
                             <h3>Socios</h3>
                             {this.state.members.length == 0 && (
                                 <em>No se han creado socios.</em>

@@ -48,6 +48,11 @@ export default () => {
                             <i className="fas fa-chart-bar" /> <span className="nav-label">Reportes</span>
                         </Link>
                     </li>
+                    <li className={window.location.pathname === "/promos" ? "active" : ""}>
+                        <Link to="/promos">
+                            <i className="fas fa-chart-bar" /> <span className="nav-label">Promos</span>
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </nav>

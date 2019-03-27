@@ -3,7 +3,7 @@ import {refreshToken} from './authActions';
 export const getStores = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores', {
+        const response = await fetch('http://34.73.113.72/api/v1/stores', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -25,7 +25,7 @@ export const saveStore = async (store_id, name, description, video_link, image_f
         formData.append('video_link', video_link);
         formData.append('image_file', image_file);
 
-        const response = await fetch('http://34.73.113.72/stores' + (store_id ? ("/" + store_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/stores' + (store_id ? ("/" + store_id) : ""), {
             method: store_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -42,7 +42,7 @@ export const saveStore = async (store_id, name, description, video_link, image_f
 export const deleteStore = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -58,7 +58,7 @@ export const deleteStore = async (store_id, callback) => {
 export const getLocales = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals", {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/locals", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -83,7 +83,7 @@ export const saveLocal = async (local_id, name, address, email, phone, city_id, 
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
 
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals" + (local_id ? ("/" + local_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/locals" + (local_id ? ("/" + local_id) : ""), {
             method: local_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -100,7 +100,7 @@ export const saveLocal = async (local_id, name, address, email, phone, city_id, 
 export const deleteLocal = async (store_id, local_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/locals/" + local_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -117,7 +117,7 @@ export const saveDevice = async (local_id, store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
 
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id + "/devices", {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/locals/" + local_id + "/devices", {
             method: 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -133,7 +133,7 @@ export const saveDevice = async (local_id, store_id, callback) => {
 export const deleteDevice = async (store_id, local_id, device_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/locals/" + local_id + "/devices/" + device_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/locals/" + local_id + "/devices/" + device_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -149,7 +149,7 @@ export const deleteDevice = async (store_id, local_id, device_id, callback) => {
 export const getProducts = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products", {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/products", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -171,7 +171,7 @@ export const saveProduct = async (product_id, store_id, name, description, price
         formData.append('price', price);
         formData.append('image_file', image_file);
 
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products" + (product_id ? ("/" + product_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/products" + (product_id ? ("/" + product_id) : ""), {
             method: product_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -188,7 +188,7 @@ export const saveProduct = async (product_id, store_id, name, description, price
 export const deleteProduct = async (store_id, product_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/products/" + product_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/products/" + product_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -204,7 +204,7 @@ export const deleteProduct = async (store_id, product_id, callback) => {
 export const getCoupons = async (store_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons", {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/coupons", {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -232,7 +232,7 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
         formData.append('members', members);
         formData.append('end_time', end_time);
 
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons" + (coupon_id ? ("/" + coupon_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/coupons" + (coupon_id ? ("/" + coupon_id) : ""), {
             method: coupon_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -249,7 +249,7 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
 export const deleteCoupon = async (store_id, coupon_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/stores/' + store_id + "/coupons/" + coupon_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/stores/' + store_id + "/coupons/" + coupon_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -265,7 +265,7 @@ export const deleteCoupon = async (store_id, coupon_id, callback) => {
 export const getBillboards = async (city_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/billboards?city_id=' + city_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/billboards?city_id=' + city_id, {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -287,7 +287,7 @@ export const saveBillboard = async (billboard_id, city_id, address, latitude, lo
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
 
-        const response = await fetch('http://34.73.113.72/billboards' + (billboard_id ? ("/" + billboard_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/billboards' + (billboard_id ? ("/" + billboard_id) : ""), {
             method: billboard_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -304,7 +304,7 @@ export const saveBillboard = async (billboard_id, city_id, address, latitude, lo
 export const deleteBillboard = async (billboard_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/billboards/' + billboard_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/billboards/' + billboard_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -320,7 +320,7 @@ export const deleteBillboard = async (billboard_id, callback) => {
 export const getMembers = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/members', {
+        const response = await fetch('http://34.73.113.72/api/v1/members', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -341,7 +341,7 @@ export const saveMember = async (member_id, name, email, phone, callback) => {
         formData.append('email', email);
         formData.append('phone', phone);
 
-        const response = await fetch('http://34.73.113.72/members' + (member_id ? ("/" + member_id) : ""), {
+        const response = await fetch('http://34.73.113.72/api/v1/members' + (member_id ? ("/" + member_id) : ""), {
             method: member_id ? 'PUT' : 'POST',
             headers: new Headers({'Authorization':'Bearer ' + token}),
             body: formData,
@@ -358,7 +358,7 @@ export const saveMember = async (member_id, name, email, phone, callback) => {
 export const deleteMember = async (member_id, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/members/' + member_id, {
+        const response = await fetch('http://34.73.113.72/api/v1/members/' + member_id, {
             method: 'DELETE',
             headers: new Headers({'Authorization':'Bearer ' + token}),
         });
@@ -374,7 +374,7 @@ export const deleteMember = async (member_id, callback) => {
 export const getCiudades = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/cities', {
+        const response = await fetch('http://34.73.113.72/api/v1/cities', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -390,7 +390,7 @@ export const getCiudades = async (callback) => {
 export const getReportes = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/reports', {
+        const response = await fetch('http://34.73.113.72/api/v1/reports', {
             method: 'GET',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -400,6 +400,59 @@ export const getReportes = async (callback) => {
             const json = await response.json();
             console.log(json);
             callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const getPromos = async (callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('http://34.73.113.72/api/v1/promos', {
+            method: 'GET',
+            headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => getPromos(callback));
+        } else {
+            const json = await response.json();
+            console.log(json);
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const savePromo = async (promo_id, image_file, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const formData = new FormData();
+        formData.append('image_file', image_file);
+
+        const response = await fetch('http://34.73.113.72/api/v1/promos' + (promo_id ? ("/" + promo_id) : ""), {
+            method: promo_id ? 'PUT' : 'POST',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+            body: formData,
+        });
+        if (response.status === 401) {
+            refreshToken(() => savePromo(promo_id, image_file, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
+export const deletePromo = async (promo_id, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('http://34.73.113.72/api/v1/promos/' + promo_id, {
+            method: 'DELETE',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => deletePromo(promo_id, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
         }
     }
 }
