@@ -19,13 +19,15 @@ class PromoCreate extends Component {
     image_file = React.createRef();
     handlePosition = event => this.setState({position: event.target.value});
     componentWillMount() {
+        const num = this.props.location.state.num;
         const promo = this.props.location.state.promo;
         if (typeof promo != 'undefined') {
             this.setState({
                 promo_id: promo.promo_id,
-                video_link: promo.video_link,
+                image_file: promo.image_file,
+                num
             });
-        }
+        } else this.setState({num});
     }
     
     prepareForm = () => {
@@ -82,7 +84,7 @@ class PromoCreate extends Component {
                         <div className="row">
                             <div className="form-group bmd-form-group col-sm-2">
                                 <label className="bmd-label-floating">Posición</label>
-                                <input id="position" required type="number" maxLength="2" min="1" max={20} className="form-control" onChange={this.handlePosition} step="1" value={this.state.position} />
+                                <input id="position" required type="number" maxLength="2" min="1" max={this.state.num} className="form-control" onChange={this.handlePosition} step="1" value={this.state.position} />
                             </div>
                             <div className="form-group bmd-form-group col-sm-10">
                                 <label className="margined-right">Imagen:</label>

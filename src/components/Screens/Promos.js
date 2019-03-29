@@ -93,7 +93,7 @@ class Listado extends Component {
                 {!this.state.loading && (
                     <div>
                         <div className="text-right spaced">
-                            <Link to={{pathname: "/promos/create", state: {}}}>
+                            <Link to={{pathname: "/promos/create", state: {num: this.state.elements.length}}}>
                                 <button type="button" className="btn btn-w-m btn-success">Crear nuevo promo</button>
                             </Link>
                         </div>

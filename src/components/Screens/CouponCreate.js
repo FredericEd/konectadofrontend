@@ -25,6 +25,7 @@ class CouponCreate extends Component {
         selected_locales: new Set(),
         selected_members: new Set(),
         today: new Date(),
+        errmessage: "",
 
         response: {},
         success: false,
@@ -62,8 +63,11 @@ class CouponCreate extends Component {
     handleSubmit = event => {
         event.preventDefault();
         if (this.state.product_id == "0")
-            this.setState({alertShow2: true});
-        else {
+            this.setState({alertShow2: true, errmessage: "¡Debe elegir un producto para guardar el cupón!"});
+        else if (this.state.selected_locales.size == 0) {
+            this.setState({alertShow2: true, errmessage: "¡Debe elegir al menos un local!"});
+        } else {
+            console.log(this.state.selected_locales);
             let start = this.state.start;
             let dd = start.getDate() < 10 ? ('0' + start.getDate()) : start.getDate();
             let mm = start.getMonth() + 1;
@@ -91,18 +95,24 @@ class CouponCreate extends Component {
     }
     handleBillboardsResponse = billboards => {
         this.setState({billboards});
-        //this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
         getLocales(this.state.store_id, this.handleLocalesResponse);
     }
     handleLocalesResponse = locales => {
         this.setState({locales, loading: false});
-        //this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
         getMembers(this.handleMembersResponse);
     }
     handleMembersResponse = members => {
         this.setState({members, loading: false});
-        //this.state.coupon_id && this.setState({product_id: this.props.location.state.coupon.product._id});
         this.prepareForm();
+    }
+    handleCheckLocalAll = event => {
+        const target = event.target;
+        const newSet = new Set();
+        if (target.checked) {
+            for (let local of this.state.locales)
+                newSet.add(local._id);
+        }
+        this.setState({selected_locales: newSet});
     }
 
     prepareForm = () => {
@@ -171,9 +181,7 @@ class CouponCreate extends Component {
                         this.state.success && this.props.history.goBack();
                     }}
                 />
-                <Alert fade={false} color="danger" isOpen={this.state.alertShow2} toggle={() => this.setState({  alertShow2: false })}>
-                    ¡Debe elegir un producto para guardar el cupón!
-                </Alert>
+                <Alert fade={false} color="danger" isOpen={this.state.alertShow2} toggle={() => this.setState({  alertShow2: false })}>{this.state.errmessage}</Alert>
                 <div className='sweet-loading text-center'>
                     <BeatLoader
                         sizeUnit={"px"} size={20} color={'#007EC7'}
@@ -229,8 +237,8 @@ class CouponCreate extends Component {
                             )}
                             {this.state.locales.length > 0 && (
                                 <div className="form-check col-sm-6 col-md-4">
-                                    <input className="form-check-input" type="checkbox" onChange={this.handleCheckLocalAll} />
-                                    <label className="form-check-label">
+                                    <input className="form-check-input" type="checkbox" id="todos" onChange={this.handleCheckLocalAll} />
+                                    <label className="form-check-label" htmlFor="todos">
                                         Elegir todos
                                     </label>
                                 </div>

@@ -11,7 +11,7 @@ class Header extends Component {
     }
     handleOptions = () => this.setState(prevState => ({showOptions: !prevState.showOptions}));
     handleClickOutside = event => {
-        this.optionsRef && !this.optionsRef.current.contains(event.target) && this.setState({showOptions: false});
+        //this.optionsRef && !this.optionsRef.current.contains(event.target) && this.setState({showOptions: false});
     }
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
@@ -30,9 +30,9 @@ class Header extends Component {
                     </div>
                     <ul className="nav navbar-top-links navbar-right">
                         <li>
-                            <span className="m-r-sm text-muted welcome-message">Bienvenido Konectado.</span>
+                            <span className="m-r-sm text-muted welcome-message">Bienvenido a Konectado.</span>
                         </li>
-                        <li className={"dropdown " + (this.state.showOptions ? "open" : "")}>
+                        {/*<li className={"dropdown " + (this.state.showOptions ? "open" : "")}>
                             <a onClick={this.handleOptions} ref={this.optionsRef} className="dropdown-toggle count-info open" data-toggle="dropdown" href="#">
                                 <i className="fa fa-bell"></i>  <span className="label label-primary">8</span>
                             </a>
@@ -73,7 +73,7 @@ class Header extends Component {
                                     </div>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*/}
                         <li>
                             <a href="#" onClick={() => logout(this.handleLogout)/*
                                 handleLogout(props.childProps.userHasAuthenticated)*/}>
