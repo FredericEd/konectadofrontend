@@ -9,6 +9,7 @@ const $ = require('jquery');
 class PromoCreate extends Component {
     state = {
         promo_id: false,
+        position: 1,
         response: {},
         success: false,
         alertShow: false,
@@ -16,6 +17,7 @@ class PromoCreate extends Component {
         loading: false,
     }
     image_file = React.createRef();
+    handlePosition = event => this.setState({position: event.target.value});
     componentWillMount() {
         const promo = this.props.location.state.promo;
         if (typeof promo != 'undefined') {
@@ -28,14 +30,14 @@ class PromoCreate extends Component {
     
     prepareForm = () => {
         this.props.changeBreadcumb(this.state.promo_id ? "Editar Promo" : "Crear Promo");
-        $("input[type=text]").focus(function(){
+        $("input[type=number]").focus(function(){
             $(this).parent().addClass("is-focused");
             $(this).parent().removeClass("is-filled");
         }).blur(function(){
             $(this).val() !== "" && $(this).parent().addClass("is-filled");
             $(this).parent().removeClass("is-focused");
         });
-        //this.state.orden != "" && $("#orden").parent().addClass("is-filled");
+        this.state.position != "" && $("#position").parent().addClass("is-filled");
     }
     componentDidMount() {
         this.prepareForm();
@@ -46,7 +48,7 @@ class PromoCreate extends Component {
             this.setState({alertShow2: true});
         else {
             this.setState({loading: true});
-            savePromo(false, this.image_file.current.files[0], this.handleResponse);
+            savePromo(false, this.state.position, this.image_file.current.files[0], this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
@@ -77,10 +79,16 @@ class PromoCreate extends Component {
                 </div>
                 {!this.state.loading && (
                     <form onSubmit={this.handleSubmit}>
-                        <div className="form-group bmd-form-group">
-                            <label className="margined-right">Imagen:</label>
-                            <input type="file" className="sspaced" ref={this.image_file}  />
-                        </div>
+                        <div className="row">
+                            <div className="form-group bmd-form-group col-sm-2">
+                                <label className="bmd-label-floating">Posición</label>
+                                <input id="position" required type="number" maxLength="2" min="1" max={20} className="form-control" onChange={this.handlePosition} step="1" value={this.state.position} />
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-10">
+                                <label className="margined-right">Imagen:</label>
+                                <input type="file" className="sspaced" ref={this.image_file}  />
+                            </div>
+                            </div>
                         <div className="spaced">
                             <button type="submit" className="btn btn-w-m btn-success">Guardar</button>
                         </div>

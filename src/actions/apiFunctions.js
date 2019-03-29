@@ -421,11 +421,12 @@ export const getPromos = async (callback) => {
     }
 }
 
-export const savePromo = async (promo_id, image_file, callback) => {
+export const savePromo = async (promo_id, position, image_file, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
         formData.append('image_file', image_file);
+        formData.append('position', position);
 
         const response = await fetch('http://34.73.113.72/api/v1/promos' + (promo_id ? ("/" + promo_id) : ""), {
             method: promo_id ? 'PUT' : 'POST',
@@ -433,7 +434,7 @@ export const savePromo = async (promo_id, image_file, callback) => {
             body: formData,
         });
         if (response.status === 401) {
-            refreshToken(() => savePromo(promo_id, image_file, callback));
+            refreshToken(() => savePromo(promo_id, position, image_file, callback));
         } else {
             const json = await response.json();
             callback(response.ok, json);
