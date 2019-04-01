@@ -8,6 +8,7 @@ export default class Billboard extends Component {
             <tr>
                 <td>{this.props.billboard.city.name}</td>
                 <td>{this.props.billboard.address}</td>
+                <td>{this.props.billboard.text}</td>
                 <td>
                     <Link to={{pathname: "/billboards/create", state: {billboard: this.props.billboard}}}>
                         <button className="btn btn-success sspaced" title="Editar"><i className="fa fa-pencil"></i></button>

@@ -131,6 +131,7 @@ class Listado extends Component {
                                         <tr>
                                             <th>Ciudad</th>
                                             <th>Dirección</th>
+                                            <th>Mensaje</th>
                                             <th>Operaciones</th>
                                         </tr>
                                     </thead>

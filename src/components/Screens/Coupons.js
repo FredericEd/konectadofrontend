@@ -55,6 +55,7 @@ class Listado extends Component {
         elements: [],
         alertShow: false,
         alertShow2: false,
+        alertShow3: false,
         success: false,
         coupon_id: false,
         response: {},
@@ -70,6 +71,15 @@ class Listado extends Component {
         console.log(elements);
         this.setState({elements, loading: false});
     }
+    copyToClipboard = coupon => {
+        const el = document.createElement('textarea');
+        el.value = coupon.code;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        this.setState({ alertShow3: true});
+    };
     
     render() {
         return (<div>
@@ -93,6 +103,15 @@ class Listado extends Component {
                 onConfirm= {() => {
                     this.setState({ alertShow2: false });
                     this.state.success && getCoupons(this.props.store._id, this.processResponse);
+                }}
+            />
+            <SweetAlert
+                show= {this.state.alertShow3}
+                title= "Konectado"
+                text= "Código copiado exitosamente"
+                type= "success"
+                onConfirm= {() => {
+                    this.setState({ alertShow3: false});
                 }}
             />
             <div className='sweet-loading text-center'>
@@ -125,7 +144,7 @@ class Listado extends Component {
                                         {this.state.elements.length == 0 && (
                                             <tr><td colSpan={6}><em>Aún no se han creado cupones para el presente afiliado.</em></td></tr>
                                         )}
-                                        {this.state.elements.map(coupon => <Coupon coupon={coupon} key={coupon._id} handleDeleteRequest={this.handleDeleteRequest} />)}
+                                        {this.state.elements.map(coupon => <Coupon coupon={coupon} key={coupon._id} handleDeleteRequest={this.handleDeleteRequest} copyToClipboard={this.copyToClipboard} />)}
                                     </tbody>
                                 </table>
                             </div>

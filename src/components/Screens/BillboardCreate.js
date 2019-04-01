@@ -13,6 +13,7 @@ class BillboardCreate extends Component {
         billboard_id: false,
         city_id: 0,
         address: "",
+        mensaje: "",
         latitude: 0,
         longitude: 0,
         ciudades: [],
@@ -25,6 +26,7 @@ class BillboardCreate extends Component {
     }
 
     handleDireccion = event => this.setState({address: event.target.value});
+    handleMensaje = event => this.setState({mensaje: event.target.value});
     handleCiudad = event => this.setState({city_id: event.target.value});
     handleMarker = (latitude, longitude) => this.setState({latitude, longitude});
 
@@ -34,7 +36,7 @@ class BillboardCreate extends Component {
             this.setState({alertShow2: true});
         else {
             this.setState({loading: true});
-            saveBillboard(this.state.billboard_id, this.state.city_id, this.state.address, this.state.latitude, this.state.longitude, this.handleResponse);
+            saveBillboard(this.state.billboard_id, this.state.city_id, this.state.address, this.state.mensaje, this.state.latitude, this.state.longitude, this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
@@ -58,6 +60,7 @@ class BillboardCreate extends Component {
             $(this).parent().removeClass("is-focused");
         });
         this.state.address != "" && $("#address").parent().addClass("is-filled");
+        this.state.mensaje != "" && $("#mensaje").parent().addClass("is-filled");
     }
     componentWillMount() {
         if (typeof this.props.location.state == 'undefined') {
@@ -69,6 +72,7 @@ class BillboardCreate extends Component {
             this.setState({
                 billboard_id: billboard._id,
                 address: billboard.address,
+                mensaje: billboard.text,
                 latitude: billboard.latitude,
                 longitude: billboard.longitude,
             });
@@ -97,8 +101,12 @@ class BillboardCreate extends Component {
                 {!this.state.loading && (
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group bmd-form-group">
-                            <label htmlFor="formGroupExampleInput" className="bmd-label-floating">Dirección</label>
-                            <input id="address" required type="text" className="form-control" onChange={this.handleDireccion} value={this.state.address} />
+                            <label htmlFor="address" className="bmd-label-floating">Dirección</label>
+                            <input id="address" required type="text" maxLength="200" className="form-control" onChange={this.handleDireccion} value={this.state.address} />
+                        </div>
+                        <div className="form-group bmd-form-group">
+                            <label htmlFor="mensaje" className="bmd-label-floating">Mensaje</label>
+                            <input id="mensaje" required maxLength="200" type="text" className="form-control" onChange={this.handleMensaje} value={this.state.mensaje} />
                         </div>
                         <select className="form-control" value={this.state.city_id} onChange={this.handleCiudad} >
                             <option value="0">Elija la ciudad</option>

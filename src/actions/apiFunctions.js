@@ -278,12 +278,13 @@ export const getBillboards = async (city_id, callback) => {
     }
 }
 
-export const saveBillboard = async (billboard_id, city_id, address, latitude, longitude, callback) => {
+export const saveBillboard = async (billboard_id, city_id, address, text, latitude, longitude, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
         formData.append('city_id', city_id);
         formData.append('address', address);
+        formData.append('text', text);
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
 
@@ -293,7 +294,7 @@ export const saveBillboard = async (billboard_id, city_id, address, latitude, lo
             body: formData,
         });
         if (response.status === 401) {
-            refreshToken(() => saveBillboard(billboard_id, city_id, address, latitude, longitude, callback));
+            refreshToken(() => saveBillboard(billboard_id, city_id, address, text, latitude, longitude, callback));
         } else {
             const json = await response.json();
             callback(response.ok, json);
