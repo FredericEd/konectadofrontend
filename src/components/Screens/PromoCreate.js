@@ -19,7 +19,7 @@ class PromoCreate extends Component {
     image_file = React.createRef();
     handlePosition = event => this.setState({position: event.target.value});
     componentWillMount() {
-        const num = this.props.location.state.num;
+        const num = this.props.location.state.num + 1;
         const promo = this.props.location.state.promo;
         if (typeof promo != 'undefined') {
             this.setState({
@@ -63,7 +63,7 @@ class PromoCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Konectado"
+                    title= "Smart Tótem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

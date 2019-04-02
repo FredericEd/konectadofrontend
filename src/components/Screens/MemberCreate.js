@@ -69,7 +69,7 @@ export default class MemberCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Konectado"
+                    title= "Smart Tótem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

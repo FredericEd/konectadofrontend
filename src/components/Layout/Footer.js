@@ -7,7 +7,7 @@ export default props => {
                 Todos los derechos reservados.
             </div>
             <div>
-                <strong>Copyright</strong> Konectado &copy; 2019
+                <strong>Copyright</strong> Smart Tótem &copy; 2019
             </div>
         </div>
     );

@@ -173,7 +173,7 @@ class CouponCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Konectado"
+                    title= "Smart Tótem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {
@@ -267,7 +267,7 @@ class CouponCreate extends Component {
                                 </div>
                             )}
                         </div>
-                        <div className="row" style={{display: "none"}}>
+                        <div className="row">
                             <h3>Socios</h3>
                             {this.state.members.length == 0 && (
                                 <em>No se han creado socios.</em>

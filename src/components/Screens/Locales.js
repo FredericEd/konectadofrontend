@@ -75,7 +75,7 @@ class Listado extends Component {
         return (<div>
             <SweetAlert
                 show= {this.state.alertShow}
-                title= "Konectado"
+                title= "Smart Tótem"
                 text= "¿Está seguro de que desea eliminar este elemento?"
                 type= "warning"
                 showCancelButton
@@ -87,7 +87,7 @@ class Listado extends Component {
             />
             <SweetAlert
                 show= {this.state.alertShow2}
-                title= "Konectado"
+                title= "Smart Tótem"
                 text= {this.state.response.msg}
                 type= {this.state.success ? "success" : "error"}
                 onConfirm= {() => {

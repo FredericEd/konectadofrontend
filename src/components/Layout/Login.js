@@ -63,7 +63,7 @@ class Login extends Component {
                             <div>
                                 <SweetAlert
                                     show= {this.state.alertShow}
-                                    title= "Konectado"
+                                    title= "Smart Tótem"
                                     text= {this.state.alertMessage}
                                     type= {this.state.loginSuccess ? "success" : "error"}
                                     onConfirm= {() => {
@@ -104,12 +104,12 @@ class Login extends Component {
             </div>
         );
     }
-}
+} 
 
 const LeftText = () => (
     <div className="col-md-6">
-        <img alt="image" className="logo" style={{marginTop: "10rem"}} src={require("../../img/logo2.png")} />
-        {/*<h2 className="font-bold">Bienvenido a Konectado</h2>
+        <img alt="image" className="logo" style={{marginTop: "5rem"}} src={require("../../img/logo2.png")} />
+        {/*<h2 className="font-bold">Bienvenido a Smart Tótem</h2>
         <p>Bacon ipsum dolor amet cow bacon meatball fatback chuck. Doner pork chop hamburger ham corned beef.</p> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
         <p><small>Ribeye venison beef ribs leberkas strip steak pig boudin shoulder fatback short ribs andouille pork loin. Tenderloin drumstick shankle jowl burgdoggen.</small></p>*/}
     </div>

@@ -73,7 +73,7 @@ class Listado extends Component {
     }
     copyToClipboard = coupon => {
         const el = document.createElement('textarea');
-        el.value = coupon.code;
+        el.value = coupon._id;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
@@ -85,7 +85,7 @@ class Listado extends Component {
         return (<div>
             <SweetAlert
                 show= {this.state.alertShow}
-                title= "Konectado"
+                title= "Smart Tótem"
                 text= "¿Está seguro de que desea eliminar este elemento?"
                 type= "warning"
                 showCancelButton
@@ -97,7 +97,7 @@ class Listado extends Component {
             />
             <SweetAlert
                 show= {this.state.alertShow2}
-                title= "Konectado"
+                title= "Smart Tótem"
                 text= {this.state.response.msg}
                 type= {this.state.success ? "success" : "error"}
                 onConfirm= {() => {
@@ -107,7 +107,7 @@ class Listado extends Component {
             />
             <SweetAlert
                 show= {this.state.alertShow3}
-                title= "Konectado"
+                title= "Smart Tótem"
                 text= "Código copiado exitosamente"
                 type= "success"
                 onConfirm= {() => {
