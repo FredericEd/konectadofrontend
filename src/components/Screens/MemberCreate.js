@@ -33,7 +33,7 @@ export default class MemberCreate extends Component {
     }
 
     prepareForm = () => {
-        this.props.changeBreadcumb(this.state.local_id ? "Editar socio" : "Crear socio");
+        this.props.changeBreadcumb(this.state.member_id ? "Editar socio" : "Crear socio");
         $("input").focus(function(){
             $(this).parent().addClass("is-focused");
             $(this).parent().removeClass("is-filled");
@@ -69,7 +69,7 @@ export default class MemberCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Smart Tótem"
+                    title= "SmartTotem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

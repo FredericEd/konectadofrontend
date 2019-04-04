@@ -30,7 +30,7 @@ class Header extends Component {
                     </div>
                     <ul className="nav navbar-top-links navbar-right">
                         <li>
-                            <span className="m-r-sm text-muted welcome-message">Bienvenido a Smart Tótem.</span>
+                            <span className="m-r-sm text-muted welcome-message">Bienvenido a SmartTotem.</span>
                         </li>
                         {/*<li className={"dropdown " + (this.state.showOptions ? "open" : "")}>
                             <a onClick={this.handleOptions} ref={this.optionsRef} className="dropdown-toggle count-info open" data-toggle="dropdown" href="#">

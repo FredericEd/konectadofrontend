@@ -217,7 +217,7 @@ export const getCoupons = async (store_id, callback) => {
     }
 }
 
-export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, billboards, locals, members, callback) => {
+export const saveCoupon = async (coupon_id, store_id, product_id, start, end, counter_max, discount, start_time, end_time, is_promo, hours, billboards, locals, members, callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
         const formData = new FormData();
@@ -227,6 +227,8 @@ export const saveCoupon = async (coupon_id, store_id, product_id, start, end, co
         formData.append('counter_max', counter_max);
         formData.append('discount', discount);
         formData.append('start_time', start_time);
+        formData.append('is_promo', is_promo);
+        formData.append('hours', hours);
         formData.append('billboards', billboards);
         formData.append('locals', locals);
         formData.append('members', members);

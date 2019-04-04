@@ -9,7 +9,7 @@ export default () => {
                     <li className="nav-header">
                         <div className="dropdown profile-element"> 
                             <span>
-                                <img alt="image" className="logo" src={require("../../img/logo.png")} />
+                                <img alt="Logo de SmartTotem" className="logo" src={require("../../img/logo.png")} />
                             </span>
                             {/*<a data-toggle="dropdown" className="dropdown-toggle" href="#">
                                 <span className="clear"> <span className="block m-t-xs"> <strong className="font-bold">David Williams</strong>

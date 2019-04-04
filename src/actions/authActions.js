@@ -23,7 +23,7 @@ export const logout = async (callback) => {
         if (response.status === 401) {
             refreshToken(() => logout(callback));
         } else {
-            const json = await response.json();
+            //const json = await response.json();
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("refreshToken");
             callback();

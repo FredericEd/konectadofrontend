@@ -106,7 +106,7 @@ class LocalCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Smart Tótem"
+                    title= "SmartTotem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

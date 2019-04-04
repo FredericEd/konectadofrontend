@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {savePromo} from '../../actions/apiFunctions';
+import { savePromo } from '../../actions/apiFunctions';
 import SweetAlert from 'sweetalert-react';
 import { Alert } from 'reactstrap';
 import { BeatLoader} from 'react-spinners';
@@ -63,7 +63,7 @@ class PromoCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Smart Tótem"
+                    title= "SmartTotem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

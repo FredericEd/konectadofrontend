@@ -50,7 +50,7 @@ class BillboardCreate extends Component {
     }
 
     prepareForm = () => {
-        this.props.changeBreadcumb(this.state.local_id ? "Editar tótem" : "Crear tótem");
+        this.props.changeBreadcumb(this.state.billboard_id ? "Editar tótem" : "Crear tótem");
         $("input").focus(function(){
             $(this).parent().addClass("is-focused");
             $(this).parent().removeClass("is-filled");
@@ -59,8 +59,8 @@ class BillboardCreate extends Component {
             $(this).val() !== "" && $(this).parent().addClass("is-filled");
             $(this).parent().removeClass("is-focused");
         });
-        this.state.address != "" && $("#address").parent().addClass("is-filled");
-        this.state.mensaje != "" && $("#mensaje").parent().addClass("is-filled");
+        this.state.address !== "" && $("#address").parent().addClass("is-filled");
+        this.state.mensaje !== "" && $("#mensaje").parent().addClass("is-filled");
     }
     componentWillMount() {
         if (typeof this.props.location.state == 'undefined') {
@@ -85,7 +85,7 @@ class BillboardCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Smart Tótem"
+                    title= "SmartTotem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {

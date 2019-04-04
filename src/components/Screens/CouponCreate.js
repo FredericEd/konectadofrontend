@@ -17,6 +17,10 @@ class CouponCreate extends Component {
         discount: 0,
         start_time: 0,
         end_time: 24,
+        hours: 24,
+        hours1: 1,
+        hours2: 0,
+        is_promo: "false",
         products: [],
         billboards: [],
         locales: [],
@@ -41,6 +45,17 @@ class CouponCreate extends Component {
     handleProduct = event => this.setState({product_id: event.target.value});
     handleStartTime = event => this.setState({start_time: event.target.value});
     handleEndTime = event => this.setState({end_time: event.target.value});
+    handleOptionChange = event => this.setState({is_promo: event.target.value == "opt1"});
+    handleHours1 = event => {
+        let valor = event.target.value;
+        let hours = valor * 24 + parseInt(this.state.hours2);
+        this.setState({hours: hours, hours1: Math.floor(hours / 24), hours2: hours % 24});
+    }
+    handleHours2 = event => {
+        let valor = event.target.value;
+        let hours = parseInt(valor) + (this.state.hours1 * 24);
+        this.setState({hours: hours, hours1: Math.floor(hours / 24), hours2: hours % 24});
+    }
     handleCheckBillboard = event => {
         const target = event.target;
         const newSet  = this.state.selected_billboards;
@@ -67,7 +82,6 @@ class CouponCreate extends Component {
         else if (this.state.selected_locales.size == 0) {
             this.setState({alertShow2: true, errmessage: "¡Debe elegir al menos un local!"});
         } else {
-            console.log(this.state.selected_locales);
             let start = this.state.start;
             let dd = start.getDate() < 10 ? ('0' + start.getDate()) : start.getDate();
             let mm = start.getMonth() + 1;
@@ -81,7 +95,7 @@ class CouponCreate extends Component {
             end = dd + '/' + mm + '/' + end.getFullYear();
 
             this.setState({loading: true});
-            saveCoupon(this.state.coupon_id, this.state.store_id, this.state.product_id, start, end, this.state.counter_max, this.state.discount, this.state.start_time, this.state.end_time, Array.from(this.state.selected_billboards).join(), Array.from(this.state.selected_locales).join(), Array.from(this.state.selected_members).join(), this.handleResponse);
+            saveCoupon(this.state.coupon_id, this.state.store_id, this.state.product_id, start, end, this.state.counter_max, this.state.discount, this.state.start_time, this.state.end_time, (this.state.selected_billboards.size > 0 || this.state.selected_members > 0) ? false : this.state.is_promo, this.state.hours, Array.from(this.state.selected_billboards).join(), Array.from(this.state.selected_locales).join(), Array.from(this.state.selected_members).join(), this.handleResponse);
         }
     }
     handleResponse = (success, response) => {
@@ -130,6 +144,8 @@ class CouponCreate extends Component {
         this.state.discount !== "" && $("#discount").parent().addClass("is-filled");
         this.state.start_time !== "" && $("#start_time").parent().addClass("is-filled");
         this.state.end_time !== "" && $("#end_time").parent().addClass("is-filled");
+        this.state.hours !== "" && $("#hours1").parent().addClass("is-filled");
+        this.state.hours !== "" && $("#hours2").parent().addClass("is-filled");
     }
     componentWillMount() {
         if (typeof this.props.location.state == 'undefined') {
@@ -157,6 +173,10 @@ class CouponCreate extends Component {
                 discount: coupon.discount,
                 start_time: coupon.start_time,
                 end_time: coupon.end_time,
+                is_promo: coupon.is_promo,
+                hours: coupon.hours,
+                hours1: Math.floor(coupon.hours / 24),
+                hours2: coupon.hours % 24,
                 selected_billboards: billboards,
                 selected_locales: locales,
                 selected_members: members,
@@ -173,7 +193,7 @@ class CouponCreate extends Component {
             <div>
                 <SweetAlert
                     show= {this.state.alertShow}
-                    title= "Smart Tótem"
+                    title= "SmartTotem"
                     text= {this.state.response.msg}
                     type= {this.state.success ? "success" : "error"}
                     onConfirm= {() => {
@@ -190,7 +210,7 @@ class CouponCreate extends Component {
                 {!this.state.loading && (
                     <form onSubmit={this.handleSubmit}>
                         <div className="row">
-                            <div className="form-group bmd-form-group col-sm-6">
+                            <div className="form-group bmd-form-group col-sm-4">
                                 <label className="margined-right">Inicio:</label>
                                 <DatePicker
                                     dateFormat="dd/MM/yyyy"
@@ -198,13 +218,31 @@ class CouponCreate extends Component {
                                     selected={this.state.start}
                                     onChange={this.handleStart} />
                             </div>
-                            <div className="form-group bmd-form-group col-sm-6">
+                            <div className="form-group bmd-form-group col-sm-4">
                                 <label className="margined-right">Final:</label>
                                 <DatePicker
                                     dateFormat="dd/MM/yyyy"
                                     minTime={this.state.today}
                                     selected={this.state.end}
                                     onChange={this.handleEnd} />
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-4">
+                                <div className="radio">
+                                    <label>
+                                        <input type="radio" value="opt1" 
+                                            checked={this.state.is_promo == true} 
+                                            onChange={this.handleOptionChange} />
+                                        Mostrar en home
+                                    </label>
+                                    </div>
+                                    <div className="radio">
+                                    <label>
+                                        <input type="radio" value="opt2" 
+                                            checked={this.state.is_promo == false} 
+                                            onChange={this.handleOptionChange} />
+                                        No mostrar en home
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div className="row">
@@ -225,10 +263,22 @@ class CouponCreate extends Component {
                                 <input min="0" step="1" required type="number" className="form-control" onChange={this.handleEndTime} id="end_time" value={this.state.end_time} />
                             </div>
                         </div>
-                        <select className="form-control" value={this.state.product_id} onChange={this.handleProduct} >
-                            <option value="0">Elija el producto</option>
-                            {this.state.products.map(product => <option key={product._id} value={product._id}>{product.name}</option>)}
-                        </select>
+                        <div className="row">
+                            <div className="form-group bmd-form-group col-sm-12 col-md-6">
+                                <select className="form-control" value={this.state.product_id} onChange={this.handleProduct} >
+                                    <option value="0">Elija el producto</option>
+                                    {this.state.products.map(product => <option key={product._id} value={product._id}>{product.name}</option>)}
+                                </select>
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-6 col-md-3">
+                                <label htmlFor="hours1" className="bmd-label-floating"> Bloqueo (días)</label>
+                                <input min="0" step="1" required type="number" className="form-control" onChange={this.handleHours1} max="100" id="hours1" value={this.state.hours1} />
+                            </div>
+                            <div className="form-group bmd-form-group col-sm-6 col-md-3">
+                                <label htmlFor="hours2" className="bmd-label-floating"> Bloqueo (horas)</label>
+                                <input min="0" step="1" required type="number" className="form-control" onChange={this.handleHours2} max="23" id="hours2" value={this.state.hours2} />
+                            </div>
+                        </div>
                         <div className="sspaced" />
                         <div className="row">
                             <h3>Locales</h3>

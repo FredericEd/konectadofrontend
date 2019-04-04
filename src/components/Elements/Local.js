@@ -26,7 +26,7 @@ export default props => {
                         <h4>Dispositivos</h4>
                         <table className="table table-hover" style={{marginBottom: 0}}>
                             <tbody>
-                                {props.local.devices.length == 0 && (<tr><td><span><em>No hay dispotivos disponibles.</em></span></td></tr>)}
+                                {props.local.devices.length === 0 && (<tr><td><span><em>No hay dispotivos disponibles.</em></span></td></tr>)}
                                 {props.local.devices.map(device => <Device key={device._id} device={device} local_id={props.local._id} handleDeleteDeviceRequest={props.handleDeleteDeviceRequest} />)}
                             </tbody>
                         </table>
