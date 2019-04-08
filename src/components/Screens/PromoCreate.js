@@ -87,7 +87,7 @@ class PromoCreate extends Component {
                                 <input id="position" required type="number" maxLength="2" min="1" max={this.state.num} className="form-control" onChange={this.handlePosition} step="1" value={this.state.position} />
                             </div>
                             <div className="form-group bmd-form-group col-sm-10">
-                                <label className="margined-right">Imagen:</label>
+                                <label className="margined-right">Imagen <small>(500px*200px)</small>:</label>
                                 <input type="file" className="sspaced" ref={this.image_file}  />
                             </div>
                             </div>

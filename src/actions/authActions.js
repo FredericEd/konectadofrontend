@@ -1,6 +1,6 @@
 export const login = async (correo, clave, callback) => {
     const queryString = require('query-string');
-    const response = await fetch('http://34.73.113.72/api/v1/auth_admin/login', {
+    const response = await fetch('https://smarttotem.info/api/v1/auth_admin/login', {
         method: 'POST',
         headers: new Headers({'Content-Type':'application/x-www-form-urlencoded'}),
         body: queryString.stringify({email: correo, password: clave}),
@@ -16,7 +16,7 @@ export const login = async (correo, clave, callback) => {
 export const logout = async (callback) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-        const response = await fetch('http://34.73.113.72/api/v1/auth_admin/logout', {
+        const response = await fetch('https://smarttotem.info//api/v1/auth_admin/logout', {
             method: 'POST',
             headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
         });
@@ -35,7 +35,7 @@ export const logout = async (callback) => {
 export const refreshToken = async callback => {
     const token = sessionStorage.getItem("refreshToken");
     if (token) {
-        const response = await fetch('http://34.73.113.72/api/v1/auth_admin/token_refresh', {
+        const response = await fetch('https://smarttotem.info/api/v1/auth_admin/token_refresh', {
             method: 'POST',
             headers: new Headers(
                 {'Content-Type':'application/x-www-form-urlencoded',

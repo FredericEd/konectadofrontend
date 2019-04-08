@@ -113,7 +113,7 @@ class ProductCreate extends Component {
                             <input required type="text" className="form-control" onChange={this.handlePrice} id="price" value={this.state.price}  />
                         </div>
                         <div className="form-group bmd-form-group">
-                            <label className="margined-right">Imagen:</label>
+                            <label className="margined-right">Imagen <small>(200px*200px)</small>:</label>
                             <input type="file" className="sspaced" ref={this.image_file}  />
                         </div>
                         <div className="spaced">

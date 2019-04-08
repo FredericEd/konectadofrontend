@@ -107,7 +107,7 @@ class StoreCreate extends Component {
                             <input required type="text" className="form-control" onChange={this.handleVideo} id="video_link" value={this.state.video_link}  />
                         </div>
                         <div className="form-group bmd-form-group">
-                            <label className="margined-right">Imagen:</label>
+                            <label className="margined-right">Imagen <small>(200px*200px)</small>:</label>
                             <input type="file" className="sspaced" ref={this.image_file}  />
                         </div>
                         <div className="spaced">
