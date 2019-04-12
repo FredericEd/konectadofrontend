@@ -127,7 +127,7 @@ class Home extends Component {
                                             <li>
                                                 <h2 className="no-margins ">{this.state.reduced.coupons_billboards}</h2>
                                                 <small>Cupones en tótems</small>
-                                                <div className="stat-percent">{this.state.reduced.coupons_billboards / this.state.reduced.coupons * 100}% <i className="fa fa-bolt text-navy"></i></div>
+                                                <div className="stat-percent">{ Math.round(this.state.reduced.coupons_billboards / this.state.reduced.coupons * 100, 2)}% <i className="fa fa-bolt text-navy"></i></div>
                                                 <div className="progress progress-mini">
                                                     <div style={{width: (this.state.reduced.coupons_billboards / this.state.reduced.coupons * 100) + "%"}} className="progress-bar"></div>
                                                 </div>
@@ -135,7 +135,7 @@ class Home extends Component {
                                             <li>
                                                 <h2 className="no-margins ">{this.state.reduced.coupons_members}</h2>
                                                 <small>Cupones premium</small>
-                                                <div className="stat-percent">{this.state.reduced.coupons_members / this.state.reduced.coupons * 100}% <i className="fa fa-bolt text-navy"></i></div>
+                                                <div className="stat-percent">{ Math.round(this.state.reduced.coupons_members / this.state.reduced.coupons * 100, 2)}% <i className="fa fa-bolt text-navy"></i></div>
                                                 <div className="progress progress-mini">
                                                     <div style={{width: (this.state.reduced.coupons_members / this.state.reduced.coupons * 100) + "%"}} className="progress-bar"></div>
                                                 </div>
