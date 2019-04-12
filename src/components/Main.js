@@ -6,6 +6,7 @@ import Home from "./Screens/Home";
 import Stores from "./Screens/Stores";
 import Products from "./Screens/Products";
 import Coupons from "./Screens/Coupons";
+import Cards from "./Screens/Cards";
 import Locales from "./Screens/Locales";
 import Billboards from "./Screens/Billboards";
 import Members from "./Screens/Members";
@@ -27,6 +28,7 @@ class Main extends Component {
                 <Route path="/stores/locales" component={Locales} />
                 <Route path="/stores/productos" component={Products} />
                 <Route path="/stores/cupones" component={Coupons} />
+                <Route path="/stores/cards" component={Cards} />
                 <Route path="/stores" component={Stores} />
                 <Route path="/billboards" component={Billboards} />
                 <Route path="/members" component={Members} />

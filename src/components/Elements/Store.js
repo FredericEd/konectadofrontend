@@ -23,6 +23,9 @@ export default props => {
                             <Link to={{pathname: "/stores/cupones", state: {store: props.store}}}>
                                 <button className="btn btn-success sspaced" title="Cupones"><i className="fa fa-credit-card"></i></button>
                             </Link>
+                            <Link to={{pathname: "/stores/cards", state: {store: props.store}}}>
+                                <button className="btn btn-success sspaced" title="Tarjeta de afiliación"><i className="fa fa-gift"></i></button>
+                            </Link>
                             <Link to={{pathname: "/stores/create", state: {store: props.store}}}>
                                 <button className="btn btn-success sspaced" title="Editar"><i className="fa fa-pencil"></i></button>
                             </Link>

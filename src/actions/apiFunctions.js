@@ -460,3 +460,60 @@ export const deletePromo = async (promo_id, callback) => {
         }
     }
 }
+
+export const getCards = async (store_id, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('https://smarttotem.info/api/v1/stores/' + store_id + "/cards", {
+            method: 'GET',
+            headers: new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => getCards(store_id, callback));
+        } else {
+            const json = await response.json();
+            callback(typeof json.data  == 'undefined' ? [] : json.data);
+        }
+    }
+}
+
+export const saveCard = async (card_id, store_id, product_id, start, end, counter_max, counter_gift, locals, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const formData = new FormData();
+        formData.append('product_id', product_id);
+        formData.append('start', start);
+        formData.append('end', end);
+        formData.append('counter_max', counter_max);
+        formData.append('counter_gift', counter_gift);
+        formData.append('locals', locals);
+
+        const response = await fetch('https://smarttotem.info/api/v1/stores/' + store_id + "/cards" + (card_id ? ("/" + card_id) : ""), {
+            method: card_id ? 'PUT' : 'POST',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+            body: formData,
+        });
+        if (response.status === 401) {
+            refreshToken(() => saveCard(card_id, store_id, product_id, start, end, counter_max, counter_gift, locals, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
+
+export const deleteCard = async (store_id, card_id, callback) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        const response = await fetch('https://smarttotem.info/api/v1/stores/' + store_id + "/cards/" + card_id, {
+            method: 'DELETE',
+            headers: new Headers({'Authorization':'Bearer ' + token}),
+        });
+        if (response.status === 401) {
+            refreshToken(() => deleteCard(store_id, card_id, callback));
+        } else {
+            const json = await response.json();
+            callback(response.ok, json);
+        }
+    }
+}
